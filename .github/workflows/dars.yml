@@ -45,6 +45,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ ! -d holat ]; then
+            echo "Holat papkasi yaratilmagan, saqlanadigan narsa yo'q."
+            exit 0
+          fi
           git add holat/
           if git diff --cached --quiet; then
             echo "Holat o'zgarmadi."
