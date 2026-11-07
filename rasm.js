@@ -65,14 +65,14 @@ if (rejim === 'jadval') {
   }
 }
 
-const { indeks, joy, keyingi } = navbatdagiJoy(holat, joylar);
+const { indeks, aylana, joy, keyingi, keyingiAylana } = navbatdagiJoy(holat, joylar);
 try {
   const rasm = await joyRasmi(joy);
-  await telegramMijozi(token).rasmYubor(qayerga, rasm.rasm, rasmMatni(joy, rasm));
-  console.log(`${indeks + 1}. ${joy.nomi} yuborildi: ${rasm.sahifa}`);
+  await telegramMijozi(token).rasmYubor(qayerga, rasm.rasm, rasmMatni(joy, rasm, aylana));
+  console.log(`${indeks + 1}. ${joy.nomi} (${(aylana % joy.matnlar.length) + 1}-matn) yuborildi: ${rasm.sahifa}`);
   if (rejim === 'jadval') {
     mkdirSync(HOLAT_PAPKASI, { recursive: true });
-    writeFileSync(HOLAT_FAYLI, JSON.stringify({ keyingi, oxirgiSana: dars.sana }, null, 2) + '\n');
+    writeFileSync(HOLAT_FAYLI, JSON.stringify({ keyingi, aylana: keyingiAylana, oxirgiSana: dars.sana }, null, 2) + '\n');
   }
 } catch (xato) {
   console.error(`Rasm yuborishda xato: ${xato.message}`);

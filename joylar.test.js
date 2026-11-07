@@ -7,9 +7,12 @@ const joylar = joylarniYukla();
 test("joylar.json to'liq va AQSh/UK navbat bilan keladi", () => {
   assert.ok(joylar.length >= 10);
   joylar.forEach((joy, i) => {
-    for (const maydon of ['nomi', 'nomiUz', 'maqola', 'kalit', 'en', 'uz']) {
+    for (const maydon of ['nomi', 'nomiUz', 'maqola', 'kalit']) {
       assert.ok(joy[maydon]?.trim(), `${i + 1}-joyda ${maydon} yo'q`);
     }
+    assert.equal(joy.matnlar?.length, 3, `${joy.nomi}: 3 ta matn bo'lsin`);
+    for (const m of joy.matnlar) assert.ok(m.en?.trim() && m.uz?.trim(), `${joy.nomi}: matnda en yoki uz yo'q`);
+    assert.equal(new Set(joy.matnlar.map((m) => m.en)).size, 3, `${joy.nomi}: matnlar takrorlanmasin`);
     assert.ok(BAYROQ[joy.davlat], `${joy.nomi}: davlat us yoki uk bo'lsin`);
     if (i > 0) assert.notEqual(joy.davlat, joylar[i - 1].davlat, `${joy.nomi}: oldingisi bilan bir davlat`);
   });
@@ -17,7 +20,7 @@ test("joylar.json to'liq va AQSh/UK navbat bilan keladi", () => {
 
 test("har bir post matni Telegram chegarasiga (1024) sig'adi", () => {
   const rasm = { sahifa: 'https://commons.wikimedia.org/wiki/File:X.jpg', muallif: 'A'.repeat(80), litsenziya: 'CC BY-SA 4.0' };
-  for (const joy of joylar) assert.ok(rasmMatni(joy, rasm).length < 1024, joy.nomi);
+  for (const joy of joylar) for (let a = 0; a < 3; a++) assert.ok(rasmMatni(joy, rasm, a).length < 1024, joy.nomi);
 });
 
 test('navbat oxiriga yetgach boshidan boshlanadi', () => {
@@ -27,9 +30,25 @@ test('navbat oxiriga yetgach boshidan boshlanadi', () => {
   assert.equal(navbatdagiJoy({ keyingi: joylar.length + 5 }, joylar).indeks, 0);
 });
 
+test("har aylanishda keyingi matn olinadi", () => {
+  // Ro'yxat o'rtasida aylana o'zgarmaydi, oxirgi joydan keyin bittaga oshadi.
+  assert.deepEqual(
+    (({ aylana, keyingiAylana }) => ({ aylana, keyingiAylana }))(navbatdagiJoy({ keyingi: 3, aylana: 1 }, joylar)),
+    { aylana: 1, keyingiAylana: 1 },
+  );
+  assert.equal(navbatdagiJoy({ keyingi: joylar.length - 1, aylana: 1 }, joylar).keyingiAylana, 2);
+  assert.equal(navbatdagiJoy({ keyingi: 0 }, joylar).aylana, 0); // eski holat faylida aylana yo'q
+  const joy = joylar[0];
+  const rasm = { sahifa: 'https://c/File:X.jpg' };
+  assert.ok(rasmMatni(joy, rasm, 0).includes(joy.matnlar[0].en));
+  assert.ok(rasmMatni(joy, rasm, 1).includes(joy.matnlar[1].en));
+  assert.ok(rasmMatni(joy, rasm, 2).includes(joy.matnlar[2].uz));
+  assert.ok(rasmMatni(joy, rasm, 3).includes(joy.matnlar[0].en)); // 4-aylanish — yana 1-matn
+});
+
 test('post matni HTML belgilarini xavfsiz qiladi va manbani ko\'rsatadi', () => {
   const matn = rasmMatni(
-    { davlat: 'uk', nomi: 'A & B', nomiUz: 'A <b>', en: 'x', uz: 'y' },
+    { davlat: 'uk', nomi: 'A & B', nomiUz: 'A <b>', matnlar: [{ en: 'x', uz: 'y' }] },
     { sahifa: 'https://c.org/File:"q".jpg', muallif: 'Ali', litsenziya: 'CC BY 4.0' },
   );
   assert.match(matn, /^🇬🇧 <b>A &amp; B<\/b>/);

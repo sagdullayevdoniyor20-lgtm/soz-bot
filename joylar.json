@@ -1,32 +1,182 @@
 [
-  { "davlat": "us", "nomi": "The Statue of Liberty", "nomiUz": "Ozodlik haykali", "en": "The Statue of Liberty stands in New York Harbor. It was a gift from France in 1886.", "uz": "Ozodlik haykali Nyu-York bandargohida turibdi. U 1886-yilda Fransiyaning sovg'asi bo'lgan.", "maqola": "Statue of Liberty", "kalit": "Statue_of_Liberty|Liberty_Island|Liberty_Statue" },
-  { "davlat": "uk", "nomi": "Big Ben", "nomiUz": "Big Ben", "en": "Big Ben is the famous clock tower in London. Its bell rings every hour.", "uz": "Big Ben — Londondagi mashhur soat minorasi. Uning qo'ng'irog'i har soatda chalinadi.", "maqola": "Big Ben", "kalit": "Big_Ben|Westminster|Elizabeth_Tower" },
-  { "davlat": "us", "nomi": "The Grand Canyon", "nomiUz": "Buyuk kanyon", "en": "The Grand Canyon is in Arizona. It is about 1.8 kilometres deep.", "uz": "Buyuk kanyon Arizona shtatida joylashgan. Uning chuqurligi taxminan 1,8 kilometr.", "maqola": "Grand Canyon", "kalit": "Grand_Canyon" },
-  { "davlat": "uk", "nomi": "Tower Bridge", "nomiUz": "Tauer ko'prigi", "en": "Tower Bridge crosses the River Thames in London. The middle of the bridge can open for big ships.", "uz": "Tauer ko'prigi Londonda Temza daryosi ustidan o'tadi. Katta kemalar uchun ko'prikning o'rtasi ochiladi.", "maqola": "Tower Bridge", "kalit": "Tower_Bridge" },
-  { "davlat": "us", "nomi": "The Golden Gate Bridge", "nomiUz": "Oltin darvoza ko'prigi", "en": "The Golden Gate Bridge is in San Francisco. Its colour is called \"international orange\".", "uz": "Oltin darvoza ko'prigi San-Fransiskoda joylashgan. Uning rangi «xalqaro to'q sariq» deb ataladi.", "maqola": "Golden Gate Bridge", "kalit": "Golden_Gate" },
-  { "davlat": "uk", "nomi": "Stonehenge", "nomiUz": "Stounhenj", "en": "Stonehenge is a circle of huge stones in England. People built it about 5,000 years ago.", "uz": "Stounhenj — Angliyadagi ulkan toshlardan iborat aylana. Odamlar uni taxminan 5000 yil oldin qurishgan.", "maqola": "Stonehenge", "kalit": "Stonehenge" },
-  { "davlat": "us", "nomi": "Times Square", "nomiUz": "Tayms-skver", "en": "Times Square is in the centre of New York. It is full of bright lights day and night.", "uz": "Tayms-skver Nyu-York markazida joylashgan. U kechayu kunduz yorqin chiroqlarga to'la.", "maqola": "Times Square", "kalit": "Times_Sq" },
-  { "davlat": "uk", "nomi": "Edinburgh Castle", "nomiUz": "Edinburg qal'asi", "en": "Edinburgh Castle stands on an old volcanic rock. It is the most famous place in Scotland.", "uz": "Edinburg qal'asi qadimgi vulqon qoyasi ustida turibdi. Bu Shotlandiyadagi eng mashhur joy.", "maqola": "Edinburgh Castle", "kalit": "Edinburgh_Castle" },
-  { "davlat": "us", "nomi": "Niagara Falls", "nomiUz": "Niagara sharsharasi", "en": "Niagara Falls is on the border of the USA and Canada. Millions of tourists visit it every year.", "uz": "Niagara sharsharasi AQSh va Kanada chegarasida joylashgan. Uni har yili millionlab sayyohlar ko'radi.", "maqola": "Niagara Falls", "kalit": "Niagara|Falls" },
-  { "davlat": "uk", "nomi": "Buckingham Palace", "nomiUz": "Bukingem saroyi", "en": "Buckingham Palace is the home of the British king in London. It has 775 rooms.", "uz": "Bukingem saroyi — Britaniya qirolining Londondagi qarorgohi. Unda 775 ta xona bor.", "maqola": "Buckingham Palace", "kalit": "Buckingham" },
-  { "davlat": "us", "nomi": "The United States Capitol", "nomiUz": "AQSh Kapitoliysi", "en": "The Capitol is in Washington, D.C. The US Congress works in this building.", "uz": "Kapitoliy Vashingtonda joylashgan. AQSh Kongressi shu binoda ishlaydi.", "maqola": "United States Capitol", "kalit": "Capitol" },
-  { "davlat": "uk", "nomi": "The London Eye", "nomiUz": "London ko'zi", "en": "The London Eye is a giant wheel next to the River Thames. From the top you can see all of London.", "uz": "London ko'zi — Temza daryosi yonidagi ulkan charxpalak. Uning tepasidan butun London ko'rinadi.", "maqola": "London Eye", "kalit": "London_Eye" },
-  { "davlat": "us", "nomi": "Yellowstone National Park", "nomiUz": "Yelloustoun milliy bog'i", "en": "Yellowstone was the first national park in the world. It has hot springs and geysers.", "uz": "Yelloustoun dunyodagi birinchi milliy bog' bo'lgan. Unda issiq buloqlar va geyzerlar bor.", "maqola": "Yellowstone National Park", "kalit": "Yellowstone|Old_Faithful|Grand_Prismatic" },
-  { "davlat": "uk", "nomi": "Oxford", "nomiUz": "Oksford", "en": "Oxford is home to the oldest university in the English-speaking world. Students have studied here for more than 900 years.", "uz": "Oksfordda ingliz tilida so'zlashuvchi dunyodagi eng qadimgi universitet bor. Bu yerda 900 yildan ortiq vaqtdan beri talabalar o'qiydi.", "maqola": "Oxford", "kalit": "Oxford|Radcliffe" },
-  { "davlat": "us", "nomi": "Mount Rushmore", "nomiUz": "Rashmor tog'i", "en": "Four US presidents are carved into the rock of Mount Rushmore. Each face is about 18 metres tall.", "uz": "Rashmor tog'i qoyasiga to'rtta AQSh prezidentining yuzi o'yib ishlangan. Har bir yuzning balandligi taxminan 18 metr.", "maqola": "Mount Rushmore", "kalit": "Rushmore" },
-  { "davlat": "uk", "nomi": "The Lake District", "nomiUz": "Ko'llar o'lkasi", "en": "The Lake District is in the north of England. It is famous for its lakes, hills and walking paths.", "uz": "Ko'llar o'lkasi Angliyaning shimolida joylashgan. U ko'llari, tepaliklari va piyoda yo'laklari bilan mashhur.", "maqola": "Lake District", "kalit": "Lake_District|Derwent|Ullswater|Windermere|Keswick" },
-  { "davlat": "us", "nomi": "Chicago", "nomiUz": "Chikago", "en": "Chicago is a big city on Lake Michigan. The first skyscraper in the world was built here.", "uz": "Chikago — Michigan ko'li bo'yidagi katta shahar. Dunyodagi birinchi osmono'par bino shu yerda qurilgan.", "maqola": "Chicago", "kalit": "Chicago_skyline|Chicago_River|Skyline|Cloud_Gate|Millennium|Michigan_Avenue" },
-  { "davlat": "uk", "nomi": "The Isle of Skye", "nomiUz": "Skay oroli", "en": "The Isle of Skye is an island in Scotland. It has wild mountains and beautiful sea views.", "uz": "Skay oroli — Shotlandiyadagi orol. Unda yovvoyi tog'lar va chiroyli dengiz manzaralari bor.", "maqola": "Isle of Skye", "kalit": "Cuillin|Storr|Portree|Quiraing|Neist|Skye_landscape|Isle_of_Skye" },
-  { "davlat": "us", "nomi": "Yosemite National Park", "nomiUz": "Yosemiti milliy bog'i", "en": "Yosemite is a national park in California. It is famous for its giant rocks and waterfalls.", "uz": "Yosemiti — Kaliforniyadagi milliy bog'. U ulkan qoyalari va sharsharalari bilan mashhur.", "maqola": "Yosemite National Park", "kalit": "Yosemite|Half_Dome|El_Capitan" },
-  { "davlat": "uk", "nomi": "Windsor Castle", "nomiUz": "Vindzor qal'asi", "en": "Windsor Castle is the oldest castle in the world where people still live. The royal family often stays here.", "uz": "Vindzor qal'asi — hali ham odamlar yashaydigan dunyodagi eng qadimgi qal'a. Qirollik oilasi bu yerda tez-tez bo'ladi.", "maqola": "Windsor Castle", "kalit": "Windsor" },
-  { "davlat": "us", "nomi": "Monument Valley", "nomiUz": "Monument vodiysi", "en": "Monument Valley has tall red rocks in the desert. You can see it in many Western films.", "uz": "Monument vodiysida cho'l o'rtasida baland qizil qoyalar bor. Uni ko'plab vestern filmlarida ko'rish mumkin.", "maqola": "Monument Valley", "kalit": "Monument_Valley" },
-  { "davlat": "uk", "nomi": "Cambridge", "nomiUz": "Kembrij", "en": "Cambridge is a famous university city. Students often go boating on the river here.", "uz": "Kembrij — mashhur universitet shahri. Bu yerda talabalar ko'pincha daryoda qayiqda suzishadi.", "maqola": "King's College, Cambridge", "kalit": "King|Cambridge" },
-  { "davlat": "us", "nomi": "The Empire State Building", "nomiUz": "Empayr-Steyt-Bilding", "en": "The Empire State Building is in New York. It has 102 floors.", "uz": "Empayr-Steyt-Bilding Nyu-Yorkda joylashgan. Unda 102 ta qavat bor.", "maqola": "Empire State Building", "kalit": "Empire_State" },
-  { "davlat": "uk", "nomi": "Bath", "nomiUz": "Bat", "en": "Bath is a beautiful old city in England. The Romans built baths here around 2,000 years ago.", "uz": "Bat — Angliyadagi chiroyli qadimiy shahar. Rimliklar bu yerda taxminan 2000 yil oldin hammomlar qurishgan.", "maqola": "Roman Baths (Bath)", "kalit": "Bath" },
-  { "davlat": "us", "nomi": "Las Vegas", "nomiUz": "Las-Vegas", "en": "Las Vegas is a city in the Nevada desert. It is famous for its big hotels and shows.", "uz": "Las-Vegas — Nevada cho'lidagi shahar. U katta mehmonxonalari va shoulari bilan mashhur.", "maqola": "Las Vegas Strip", "kalit": "Las_Vegas|Strip|Bellagio" },
-  { "davlat": "uk", "nomi": "The Giant's Causeway", "nomiUz": "Gigant yo'li", "en": "The Giant's Causeway is in Northern Ireland. It has about 40,000 stone columns made by a volcano.", "uz": "Gigant yo'li Shimoliy Irlandiyada joylashgan. Unda vulqon hosil qilgan 40 mingga yaqin tosh ustun bor.", "maqola": "Giant's Causeway", "kalit": "Causeway" },
-  { "davlat": "us", "nomi": "Hawaii", "nomiUz": "Gavayi", "en": "Hawaii is a group of islands in the Pacific Ocean. People go there for the beaches and warm weather.", "uz": "Gavayi — Tinch okeanidagi orollar guruhi. Odamlar u yerga plyajlar va iliq ob-havo uchun borishadi.", "maqola": "Waikiki", "kalit": "Waikiki|Diamond_Head|Honolulu" },
-  { "davlat": "uk", "nomi": "Snowdon", "nomiUz": "Snoudon", "en": "Snowdon is the highest mountain in Wales. You can walk to the top or take a train.", "uz": "Snoudon — Uelsdagi eng baland tog'. Uning cho'qqisiga piyoda chiqish yoki poyezdda borish mumkin.", "maqola": "Snowdon", "kalit": "Snowdon|Yr_Wyddfa" },
-  { "davlat": "us", "nomi": "The Hollywood Sign", "nomiUz": "Gollivud yozuvi", "en": "The Hollywood Sign is on a hill in Los Angeles. Each letter is about 14 metres tall.", "uz": "Gollivud yozuvi Los-Anjelesdagi tepalikda turibdi. Har bir harfning balandligi taxminan 14 metr.", "maqola": "Hollywood Sign", "kalit": "Hollywood_Sign|Hollywood_sign" },
-  { "davlat": "uk", "nomi": "The White Cliffs of Dover", "nomiUz": "Duvrning oq qoyalari", "en": "The White Cliffs of Dover look over the sea towards France. On a clear day you can see the French coast.", "uz": "Duvrning oq qoyalari dengiz orqali Fransiya tomonga qaraydi. Havo ochiq kunda Fransiya qirg'og'i ko'rinadi.", "maqola": "White Cliffs of Dover", "kalit": "Dover|Cliffs" }
+  { "davlat": "us", "nomi": "The Statue of Liberty", "nomiUz": "Ozodlik haykali", "maqola": "Statue of Liberty", "kalit": "Statue_of_Liberty|Liberty_Island|Liberty_Statue",
+    "matnlar": [
+      { "en": "The Statue of Liberty stands in New York Harbor. It was a gift from France in 1886.", "uz": "Ozodlik haykali Nyu-York bandargohida turibdi. U 1886-yilda Fransiyaning sovg'asi bo'lgan." },
+      { "en": "The statue holds a torch in her right hand. With the base, she is 93 metres tall.", "uz": "Haykal o'ng qo'lida mash'al ushlab turibdi. Poydevori bilan birga uning balandligi 93 metr." },
+      { "en": "The statue is made of copper. It was brown at first, but now it is green.", "uz": "Haykal misdan yasalgan. Avval u jigarrang edi, hozir esa yashil." }
+    ] },
+  { "davlat": "uk", "nomi": "Big Ben", "nomiUz": "Big Ben", "maqola": "Big Ben", "kalit": "Big_Ben|Westminster|Elizabeth_Tower",
+    "matnlar": [
+      { "en": "Big Ben is the famous clock tower in London. Its bell rings every hour.", "uz": "Big Ben — Londondagi mashhur soat minorasi. Uning qo'ng'irog'i har soatda chalinadi." },
+      { "en": "Big Ben is really the name of the bell, not the tower. The tower is called the Elizabeth Tower.", "uz": "Aslida Big Ben — minora emas, qo'ng'iroqning nomi. Minora Yelizaveta minorasi deb ataladi." },
+      { "en": "The tower is 96 metres tall. There are 334 steps to the top.", "uz": "Minoraning balandligi 96 metr. Uning tepasiga 334 ta zina bor." }
+    ] },
+  { "davlat": "us", "nomi": "The Grand Canyon", "nomiUz": "Buyuk kanyon", "maqola": "Grand Canyon", "kalit": "Grand_Canyon",
+    "matnlar": [
+      { "en": "The Grand Canyon is in Arizona. It is about 1.8 kilometres deep.", "uz": "Buyuk kanyon Arizona shtatida joylashgan. Uning chuqurligi taxminan 1,8 kilometr." },
+      { "en": "The Colorado River made the canyon over millions of years.", "uz": "Kanyonni millionlab yillar davomida Kolorado daryosi hosil qilgan." },
+      { "en": "The canyon is about 446 kilometres long.", "uz": "Kanyonning uzunligi taxminan 446 kilometr." }
+    ] },
+  { "davlat": "uk", "nomi": "Tower Bridge", "nomiUz": "Tauer ko'prigi", "maqola": "Tower Bridge", "kalit": "Tower_Bridge",
+    "matnlar": [
+      { "en": "Tower Bridge crosses the River Thames in London. The middle of the bridge can open for big ships.", "uz": "Tauer ko'prigi Londonda Temza daryosi ustidan o'tadi. Katta kemalar uchun ko'prikning o'rtasi ochiladi." },
+      { "en": "Tower Bridge opened in 1894.", "uz": "Tauer ko'prigi 1894-yilda ochilgan." },
+      { "en": "There is a glass floor at the top of the bridge. You can look down at the river and the cars.", "uz": "Ko'prik tepasida shisha pol bor. Undan pastdagi daryo va mashinalarga qarash mumkin." }
+    ] },
+  { "davlat": "us", "nomi": "The Golden Gate Bridge", "nomiUz": "Oltin darvoza ko'prigi", "maqola": "Golden Gate Bridge", "kalit": "Golden_Gate",
+    "matnlar": [
+      { "en": "The Golden Gate Bridge is in San Francisco. Its colour is called \"international orange\".", "uz": "Oltin darvoza ko'prigi San-Fransiskoda joylashgan. Uning rangi «xalqaro to'q sariq» deb ataladi." },
+      { "en": "The bridge opened in 1937. It is about 2.7 kilometres long.", "uz": "Ko'prik 1937-yilda ochilgan. Uning uzunligi taxminan 2,7 kilometr." },
+      { "en": "In the morning there is often fog around the bridge.", "uz": "Ertalab ko'prik atrofida ko'pincha tuman bo'ladi." }
+    ] },
+  { "davlat": "uk", "nomi": "Stonehenge", "nomiUz": "Stounhenj", "maqola": "Stonehenge", "kalit": "Stonehenge",
+    "matnlar": [
+      { "en": "Stonehenge is a circle of huge stones in England. People built it about 5,000 years ago.", "uz": "Stounhenj — Angliyadagi ulkan toshlardan iborat aylana. Odamlar uni taxminan 5000 yil oldin qurishgan." },
+      { "en": "Some of the stones came from Wales, more than 200 kilometres away.", "uz": "Ba'zi toshlar 200 kilometrdan ham uzoqroqdagi Uelsdan keltirilgan." },
+      { "en": "Every summer, many people come here to watch the sunrise on the longest day of the year.", "uz": "Har yozda ko'p odamlar yilning eng uzun kunida quyosh chiqishini ko'rish uchun bu yerga kelishadi." }
+    ] },
+  { "davlat": "us", "nomi": "Times Square", "nomiUz": "Tayms-skver", "maqola": "Times Square", "kalit": "Times_Sq",
+    "matnlar": [
+      { "en": "Times Square is in the centre of New York. It is full of bright lights day and night.", "uz": "Tayms-skver Nyu-York markazida joylashgan. U kechayu kunduz yorqin chiroqlarga to'la." },
+      { "en": "On New Year's Eve, a big ball comes down here at midnight.", "uz": "Yangi yil kechasi bu yerda yarim tunda katta shar pastga tushadi." },
+      { "en": "Many Broadway theatres are near Times Square.", "uz": "Tayms-skver yaqinida Brodveyning ko'plab teatrlari bor." }
+    ] },
+  { "davlat": "uk", "nomi": "Edinburgh Castle", "nomiUz": "Edinburg qal'asi", "maqola": "Edinburgh Castle", "kalit": "Edinburgh_Castle",
+    "matnlar": [
+      { "en": "Edinburgh Castle stands on an old volcanic rock. It is the most famous place in Scotland.", "uz": "Edinburg qal'asi qadimgi vulqon qoyasi ustida turibdi. Bu Shotlandiyadagi eng mashhur joy." },
+      { "en": "Every day except Sunday, a cannon fires from the castle at one o'clock.", "uz": "Yakshanbadan boshqa har kuni soat birda qal'adan to'p otiladi." },
+      { "en": "Every August, Edinburgh has a big festival of music and theatre.", "uz": "Har avgustda Edinburgda musiqa va teatrning katta festivali bo'ladi." }
+    ] },
+  { "davlat": "us", "nomi": "Niagara Falls", "nomiUz": "Niagara sharsharasi", "maqola": "Niagara Falls", "kalit": "Niagara|Falls",
+    "matnlar": [
+      { "en": "Niagara Falls is on the border of the USA and Canada. Millions of tourists visit it every year.", "uz": "Niagara sharsharasi AQSh va Kanada chegarasida joylashgan. Uni har yili millionlab sayyohlar ko'radi." },
+      { "en": "Niagara Falls is really three waterfalls together.", "uz": "Niagara aslida uchta sharsharadan iborat." },
+      { "en": "Tourists can take a boat very close to the falls.", "uz": "Sayyohlar qayiqda sharsharaga juda yaqin borishlari mumkin." }
+    ] },
+  { "davlat": "uk", "nomi": "Buckingham Palace", "nomiUz": "Bukingem saroyi", "maqola": "Buckingham Palace", "kalit": "Buckingham",
+    "matnlar": [
+      { "en": "Buckingham Palace is the home of the British king in London. It has 775 rooms.", "uz": "Bukingem saroyi — Britaniya qirolining Londondagi qarorgohi. Unda 775 ta xona bor." },
+      { "en": "When the Royal Standard flag flies over the palace, the king is at home.", "uz": "Saroy ustida qirollik bayrog'i hilpirab tursa, qirol saroyda bo'ladi." },
+      { "en": "Visitors love to watch the Changing of the Guard in front of the palace.", "uz": "Mehmonlar saroy oldidagi soqchilar almashinuvini tomosha qilishni yaxshi ko'rishadi." }
+    ] },
+  { "davlat": "us", "nomi": "The United States Capitol", "nomiUz": "AQSh Kapitoliysi", "maqola": "United States Capitol", "kalit": "Capitol",
+    "matnlar": [
+      { "en": "The Capitol is in Washington, D.C. The US Congress works in this building.", "uz": "Kapitoliy Vashingtonda joylashgan. AQSh Kongressi shu binoda ishlaydi." },
+      { "en": "The building has a big white dome. It stands on a hill called Capitol Hill.", "uz": "Binoning katta oq gumbazi bor. U Kapitoliy tepaligi deb ataladigan tepalikda turibdi." },
+      { "en": "On top of the dome there is a statue called the Statue of Freedom.", "uz": "Gumbaz tepasida Erkinlik haykali deb ataladigan haykal turibdi." }
+    ] },
+  { "davlat": "uk", "nomi": "The London Eye", "nomiUz": "London ko'zi", "maqola": "London Eye", "kalit": "London_Eye",
+    "matnlar": [
+      { "en": "The London Eye is a giant wheel next to the River Thames. From the top you can see all of London.", "uz": "London ko'zi — Temza daryosi yonidagi ulkan charxpalak. Uning tepasidan butun London ko'rinadi." },
+      { "en": "The London Eye is 135 metres tall. One trip takes about 30 minutes.", "uz": "London ko'zining balandligi 135 metr. Bir aylanish taxminan 30 daqiqa davom etadi." },
+      { "en": "It opened in 2000. It has 32 glass capsules.", "uz": "U 2000-yilda ochilgan. Unda 32 ta shisha kabina bor." }
+    ] },
+  { "davlat": "us", "nomi": "Yellowstone National Park", "nomiUz": "Yelloustoun milliy bog'i", "maqola": "Yellowstone National Park", "kalit": "Yellowstone|Old_Faithful|Grand_Prismatic",
+    "matnlar": [
+      { "en": "Yellowstone was the first national park in the world. It has hot springs and geysers.", "uz": "Yelloustoun dunyodagi birinchi milliy bog' bo'lgan. Unda issiq buloqlar va geyzerlar bor." },
+      { "en": "The geyser Old Faithful shoots hot water into the air many times a day.", "uz": "Old Feytful geyzeri kuniga ko'p marta havoga issiq suv otib chiqaradi." },
+      { "en": "Bears, wolves and bison live in Yellowstone.", "uz": "Yelloustounda ayiqlar, bo'rilar va bizonlar yashaydi." }
+    ] },
+  { "davlat": "uk", "nomi": "Oxford", "nomiUz": "Oksford", "maqola": "Oxford", "kalit": "Oxford|Radcliffe",
+    "matnlar": [
+      { "en": "Oxford is home to the oldest university in the English-speaking world. Students have studied here for more than 900 years.", "uz": "Oksfordda ingliz tilida so'zlashuvchi dunyodagi eng qadimgi universitet bor. Bu yerda 900 yildan ortiq vaqtdan beri talabalar o'qiydi." },
+      { "en": "Some scenes from the Harry Potter films were filmed in Oxford.", "uz": "«Garri Potter» filmlarining ba'zi sahnalari Oksfordda suratga olingan." },
+      { "en": "People call Oxford \"the city of dreaming spires\".", "uz": "Oksfordni «orzu qiluvchi minoralar shahri» deb atashadi." }
+    ] },
+  { "davlat": "us", "nomi": "Mount Rushmore", "nomiUz": "Rashmor tog'i", "maqola": "Mount Rushmore", "kalit": "Rushmore",
+    "matnlar": [
+      { "en": "Four US presidents are carved into the rock of Mount Rushmore. Each face is about 18 metres tall.", "uz": "Rashmor tog'i qoyasiga to'rtta AQSh prezidentining yuzi o'yib ishlangan. Har bir yuzning balandligi taxminan 18 metr." },
+      { "en": "The faces are of Washington, Jefferson, Theodore Roosevelt and Lincoln.", "uz": "Yuzlar Vashington, Jefferson, Teodor Ruzvelt va Linkolnga tegishli." },
+      { "en": "About 400 workers made the monument between 1927 and 1941.", "uz": "Monumentni 1927–1941-yillarda 400 ga yaqin ishchi yasagan." }
+    ] },
+  { "davlat": "uk", "nomi": "The Lake District", "nomiUz": "Ko'llar o'lkasi", "maqola": "Lake District", "kalit": "Lake_District|Derwent|Ullswater|Windermere|Keswick",
+    "matnlar": [
+      { "en": "The Lake District is in the north of England. It is famous for its lakes, hills and walking paths.", "uz": "Ko'llar o'lkasi Angliyaning shimolida joylashgan. U ko'llari, tepaliklari va piyoda yo'laklari bilan mashhur." },
+      { "en": "England's highest mountain, Scafell Pike, is in the Lake District.", "uz": "Angliyaning eng baland tog'i — Skofell-Payk Ko'llar o'lkasida joylashgan." },
+      { "en": "The writer Beatrix Potter lived here. She wrote stories about Peter Rabbit.", "uz": "Bu yerda yozuvchi Beatris Potter yashagan. U Piter quyon haqida ertaklar yozgan." }
+    ] },
+  { "davlat": "us", "nomi": "Chicago", "nomiUz": "Chikago", "maqola": "Chicago", "kalit": "Chicago_skyline|Chicago_River|Skyline|Cloud_Gate|Millennium|Michigan_Avenue",
+    "matnlar": [
+      { "en": "Chicago is a big city on Lake Michigan. The first skyscraper in the world was built here.", "uz": "Chikago — Michigan ko'li bo'yidagi katta shahar. Dunyodagi birinchi osmono'par bino shu yerda qurilgan." },
+      { "en": "People call Chicago \"the Windy City\".", "uz": "Chikagoni «Shamolli shahar» deb atashadi." },
+      { "en": "Every year on St Patrick's Day, the Chicago River turns green.", "uz": "Har yili Avliyo Patrik kuni Chikago daryosi yashil rangga bo'yaladi." }
+    ] },
+  { "davlat": "uk", "nomi": "The Isle of Skye", "nomiUz": "Skay oroli", "maqola": "Isle of Skye", "kalit": "Cuillin|Storr|Portree|Quiraing|Neist|Skye_landscape|Isle_of_Skye",
+    "matnlar": [
+      { "en": "The Isle of Skye is an island in Scotland. It has wild mountains and beautiful sea views.", "uz": "Skay oroli — Shotlandiyadagi orol. Unda yovvoyi tog'lar va chiroyli dengiz manzaralari bor." },
+      { "en": "A bridge connects the Isle of Skye to the mainland.", "uz": "Skay orolini quruqlik bilan ko'prik bog'laydi." },
+      { "en": "The Old Man of Storr is a tall rock on the island. Many people walk up to see it.", "uz": "Storr choli — oroldagi baland qoya. Ko'p odamlar uni ko'rish uchun tepaga chiqishadi." }
+    ] },
+  { "davlat": "us", "nomi": "Yosemite National Park", "nomiUz": "Yosemiti milliy bog'i", "maqola": "Yosemite National Park", "kalit": "Yosemite|Half_Dome|El_Capitan",
+    "matnlar": [
+      { "en": "Yosemite is a national park in California. It is famous for its giant rocks and waterfalls.", "uz": "Yosemiti — Kaliforniyadagi milliy bog'. U ulkan qoyalari va sharsharalari bilan mashhur." },
+      { "en": "Half Dome is a famous rock in Yosemite. It looks like half of a ball.", "uz": "Half Doum — Yosemitidagi mashhur qoya. U yarimta sharga o'xshaydi." },
+      { "en": "Giant sequoia trees grow here. They are some of the biggest trees in the world.", "uz": "Bu yerda ulkan sekvoyalar o'sadi. Ular dunyodagi eng katta daraxtlar qatoriga kiradi." }
+    ] },
+  { "davlat": "uk", "nomi": "Windsor Castle", "nomiUz": "Vindzor qal'asi", "maqola": "Windsor Castle", "kalit": "Windsor",
+    "matnlar": [
+      { "en": "Windsor Castle is the oldest castle in the world where people still live. The royal family often stays here.", "uz": "Vindzor qal'asi — hali ham odamlar yashaydigan dunyodagi eng qadimgi qal'a. Qirollik oilasi bu yerda tez-tez bo'ladi." },
+      { "en": "Windsor Castle is near London. It is more than 900 years old.", "uz": "Vindzor qal'asi London yaqinida joylashgan. Uning yoshi 900 yildan oshgan." },
+      { "en": "Inside the castle there is a famous doll's house made for Queen Mary.", "uz": "Qal'a ichida qirolicha Meri uchun yasalgan mashhur qo'g'irchoq uyi bor." }
+    ] },
+  { "davlat": "us", "nomi": "Monument Valley", "nomiUz": "Monument vodiysi", "maqola": "Monument Valley", "kalit": "Monument_Valley",
+    "matnlar": [
+      { "en": "Monument Valley has tall red rocks in the desert. You can see it in many Western films.", "uz": "Monument vodiysida cho'l o'rtasida baland qizil qoyalar bor. Uni ko'plab vestern filmlarida ko'rish mumkin." },
+      { "en": "Monument Valley is on Navajo land, on the border of Arizona and Utah.", "uz": "Monument vodiysi Arizona va Yuta chegarasida, navaxo xalqi yerida joylashgan." },
+      { "en": "The rocks look red because there is iron in them.", "uz": "Qoyalar qizil ko'rinadi, chunki ularda temir bor." }
+    ] },
+  { "davlat": "uk", "nomi": "Cambridge", "nomiUz": "Kembrij", "maqola": "King's College, Cambridge", "kalit": "King|Cambridge",
+    "matnlar": [
+      { "en": "Cambridge is a famous university city. Students often go boating on the river here.", "uz": "Kembrij — mashhur universitet shahri. Bu yerda talabalar ko'pincha daryoda qayiqda suzishadi." },
+      { "en": "The University of Cambridge started in 1209.", "uz": "Kembrij universiteti 1209-yilda tashkil topgan." },
+      { "en": "Isaac Newton studied and worked in Cambridge.", "uz": "Isaak Nyuton Kembrijda o'qigan va ishlagan." }
+    ] },
+  { "davlat": "us", "nomi": "The Empire State Building", "nomiUz": "Empayr-Steyt-Bilding", "maqola": "Empire State Building", "kalit": "Empire_State",
+    "matnlar": [
+      { "en": "The Empire State Building is in New York. It has 102 floors.", "uz": "Empayr-Steyt-Bilding Nyu-Yorkda joylashgan. Unda 102 ta qavat bor." },
+      { "en": "The building opened in 1931. The builders finished it in only about 13 months.", "uz": "Bino 1931-yilda ochilgan. Quruvchilar uni atigi 13 oyga yaqin vaqtda qurib bitkazishgan." },
+      { "en": "At night, the top of the building shines in different colours.", "uz": "Kechasi binoning tepasi turli ranglarda yonib turadi." }
+    ] },
+  { "davlat": "uk", "nomi": "Bath", "nomiUz": "Bat", "maqola": "Roman Baths (Bath)", "kalit": "Bath",
+    "matnlar": [
+      { "en": "Bath is a beautiful old city in England. The Romans built baths here around 2,000 years ago.", "uz": "Bat — Angliyadagi chiroyli qadimiy shahar. Rimliklar bu yerda taxminan 2000 yil oldin hammomlar qurishgan." },
+      { "en": "The water in the baths is hot. It comes from deep under the ground.", "uz": "Hammomlardagi suv issiq. U yerning tubidan chiqadi." },
+      { "en": "The writer Jane Austen lived in Bath.", "uz": "Yozuvchi Jeyn Ostin Batda yashagan." }
+    ] },
+  { "davlat": "us", "nomi": "Las Vegas", "nomiUz": "Las-Vegas", "maqola": "Las Vegas Strip", "kalit": "Las_Vegas|Strip|Bellagio",
+    "matnlar": [
+      { "en": "Las Vegas is a city in the Nevada desert. It is famous for its big hotels and shows.", "uz": "Las-Vegas — Nevada cho'lidagi shahar. U katta mehmonxonalari va shoulari bilan mashhur." },
+      { "en": "The Bellagio hotel has famous fountains that dance to music.", "uz": "Bellajio mehmonxonasida musiqaga mos raqsga tushadigan mashhur favvoralar bor." },
+      { "en": "Las Vegas is not far from the Hoover Dam, a huge dam on the Colorado River.", "uz": "Las-Vegasdan uncha uzoq bo'lmagan joyda Kolorado daryosidagi ulkan Guver to'g'oni bor." }
+    ] },
+  { "davlat": "uk", "nomi": "The Giant's Causeway", "nomiUz": "Gigant yo'li", "maqola": "Giant's Causeway", "kalit": "Causeway",
+    "matnlar": [
+      { "en": "The Giant's Causeway is in Northern Ireland. It has about 40,000 stone columns made by a volcano.", "uz": "Gigant yo'li Shimoliy Irlandiyada joylashgan. Unda vulqon hosil qilgan 40 mingga yaqin tosh ustun bor." },
+      { "en": "An old story says that a giant called Finn McCool built it.", "uz": "Qadimiy afsonaga ko'ra, uni Finn MakKul ismli gigant qurgan." },
+      { "en": "Most of the stones have six sides.", "uz": "Toshlarning ko'pchiligi olti qirrali." }
+    ] },
+  { "davlat": "us", "nomi": "Hawaii", "nomiUz": "Gavayi", "maqola": "Waikiki", "kalit": "Waikiki|Diamond_Head|Honolulu",
+    "matnlar": [
+      { "en": "Hawaii is a group of islands in the Pacific Ocean. People go there for the beaches and warm weather.", "uz": "Gavayi — Tinch okeanidagi orollar guruhi. Odamlar u yerga plyajlar va iliq ob-havo uchun borishadi." },
+      { "en": "Hawaii became the 50th US state in 1959.", "uz": "Gavayi 1959-yilda AQShning 50-shtatiga aylangan." },
+      { "en": "Surfing is very popular in Hawaii.", "uz": "Gavayida serfing juda mashhur." }
+    ] },
+  { "davlat": "uk", "nomi": "Snowdon", "nomiUz": "Snoudon", "maqola": "Snowdon", "kalit": "Snowdon|Yr_Wyddfa",
+    "matnlar": [
+      { "en": "Snowdon is the highest mountain in Wales. You can walk to the top or take a train.", "uz": "Snoudon — Uelsdagi eng baland tog'. Uning cho'qqisiga piyoda chiqish yoki poyezdda borish mumkin." },
+      { "en": "Snowdon is 1,085 metres high.", "uz": "Snoudonning balandligi 1085 metr." },
+      { "en": "In Welsh, the mountain is called Yr Wyddfa.", "uz": "Uels tilida bu tog' Ir Uidva deb ataladi." }
+    ] },
+  { "davlat": "us", "nomi": "The Hollywood Sign", "nomiUz": "Gollivud yozuvi", "maqola": "Hollywood Sign", "kalit": "Hollywood_Sign|Hollywood_sign",
+    "matnlar": [
+      { "en": "The Hollywood Sign is on a hill in Los Angeles. Each letter is about 14 metres tall.", "uz": "Gollivud yozuvi Los-Anjelesdagi tepalikda turibdi. Har bir harfning balandligi taxminan 14 metr." },
+      { "en": "The sign first went up in 1923. At first it said \"Hollywoodland\".", "uz": "Yozuv birinchi marta 1923-yilda o'rnatilgan. Avval unda «Hollywoodland» deb yozilgan edi." },
+      { "en": "Hollywood is the centre of the American film industry.", "uz": "Gollivud — Amerika kino sanoatining markazi." }
+    ] },
+  { "davlat": "uk", "nomi": "The White Cliffs of Dover", "nomiUz": "Duvrning oq qoyalari", "maqola": "White Cliffs of Dover", "kalit": "Dover|Cliffs",
+    "matnlar": [
+      { "en": "The White Cliffs of Dover look over the sea towards France. On a clear day you can see the French coast.", "uz": "Duvrning oq qoyalari dengiz orqali Fransiya tomonga qaraydi. Havo ochiq kunda Fransiya qirg'og'i ko'rinadi." },
+      { "en": "The cliffs are white because they are made of chalk.", "uz": "Qoyalar oq, chunki ular bo'rdan tashkil topgan." },
+      { "en": "The cliffs are up to 110 metres high.", "uz": "Qoyalarning balandligi 110 metrgacha yetadi." }
+    ] }
 ]

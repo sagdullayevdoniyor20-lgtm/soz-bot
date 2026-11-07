@@ -27,8 +27,8 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 | `xabarnoma.js` | So'zlar tugab qolayotgani haqida adminga xabar matni; tarmoqqa chiqmaydi |
 | `admin-id.js` | `npm run admin-id`: botga /start bosgan odamlarning Telegram ID sini chiqaradi |
 | `sinov.js` | `npm run sinov`: bitta darsni hozir ADMIN_ID ga (`-- kanal` bilan kanalga) yuboradi; vaqtinchalik bazada |
-| `rasm.js` | 10:00 dagi rasm: `node rasm.js` (jadval), `sinov` (ADMIN_ID ga), `kanal`, `tekshir` (Telegram'siz, 30 ta joyning rasmini tekshiradi). Navbat `holat/rasm.json` da |
-| `joylar.json` | AQSh/UK joylari navbat bilan: nomi, `en`/`uz` matn, `maqola` (inglizcha Wikipedia sarlavhasi), `kalit` (maqoladagi qaysi fayllar mos: regex) |
+| `rasm.js` | 10:00 dagi rasm: `node rasm.js` (jadval), `sinov` (ADMIN_ID ga), `kanal`, `tekshir` (Telegram'siz, 30 ta joyning rasmini tekshiradi). Navbat va aylana `holat/rasm.json` da |
+| `joylar.json` | AQSh/UK joylari navbat bilan: nomi, `matnlar` (3 ta `{en, uz}`: har 30 kunlik aylanishda keyingisi), `maqola` (inglizcha Wikipedia sarlavhasi), `kalit` (maqoladagi qaysi fayllar mos: regex) |
 | `joylar.js` | Joylar navbati, rasm tagidagi matn, yaroqli rasmlarni ajratish; tarmoqqa chiqmaydi |
 | `commons.js` | Wikipedia maqolasi orqali Wikimedia Commons'dan rasm topish va yuklab olish |
 | `.github/workflows/rasm.yml` | Rasm jadvali: 10:07, 10:37, 11:17 (Toshkent), oxirida navbatni commit qiladi |

@@ -13,21 +13,26 @@ export function joylarniYukla(yol = join(import.meta.dirname, 'joylar.json')) {
 
 const html = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// holat: { keyingi: joy indeksi (0 dan), oxirgiSana }. Ro'yxat tugasa boshidan boshlanadi.
+// holat: { keyingi: joy indeksi (0 dan), aylana: ro'yxat necha marta to'liq o'tilgani, oxirgiSana }.
+// Ro'yxat tugasa boshidan boshlanadi va aylana bittaga oshadi (keyingi aylanishda boshqa matn chiqadi).
 export function navbatdagiJoy(holat, joylar) {
   const indeks = Number.isInteger(holat?.keyingi) && holat.keyingi < joylar.length ? holat.keyingi : 0;
-  return { indeks, joy: joylar[indeks], keyingi: (indeks + 1) % joylar.length };
+  const aylana = Number.isInteger(holat?.aylana) && holat.aylana >= 0 ? holat.aylana : 0;
+  const keyingi = (indeks + 1) % joylar.length;
+  return { indeks, aylana, joy: joylar[indeks], keyingi, keyingiAylana: keyingi === 0 ? aylana + 1 : aylana };
 }
 
 // Rasm tagidagi matn (parse_mode: HTML). rasm: { sahifa, muallif, litsenziya }.
-export function rasmMatni(joy, rasm) {
+// Joyning matnlari aylanaga qarab navbat bilan olinadi: 1-aylanish — 1-matn, 2-si — 2-matn, ...
+export function rasmMatni(joy, rasm, aylana = 0) {
+  const matn = joy.matnlar[aylana % joy.matnlar.length];
   const manba = [rasm.muallif, rasm.litsenziya].filter(Boolean).join(', ') || 'Wikimedia Commons';
   return [
     `${BAYROQ[joy.davlat]} <b>${html(joy.nomi)}</b>`,
-    html(joy.en),
+    html(matn.en),
     '',
     `🇺🇿 <b>${html(joy.nomiUz)}</b>`,
-    html(joy.uz),
+    html(matn.uz),
     '',
     `📷 <a href="${html(rasm.sahifa)}">${html(manba)}</a> / Wikimedia Commons`,
   ].join('\n').slice(0, CAPTION_CHEGARASI);
