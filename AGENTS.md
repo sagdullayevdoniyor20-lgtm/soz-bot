@@ -60,4 +60,4 @@ Telegram bot ingliz tilini o'rganuvchilar uchun kanalga har kuni 2 marta (08:00 
 ## Tekshirish
 
 - O'zgarishdan keyin `npm test` ishlatiladi. Testlar tarmoqqa chiqmaydi va vaqtinchalik (`:memory:`) bazada ishlaydi.
-- Kompyuterda ishga tushirish: `npm start`. GitHub'da: Actions → «Dars yuborish» → Run workflow.
+- Kompyuterda ishga tushirish: `npm start`. GitHub'da: Actions → «Dars yuborish» → Run workflow. Rejim: `dars` (vaqti kelgan bo'lsa), `sinov` (hozir ADMIN_ID ga), `sinov-kanal` (hozir kanalga); sinov holatga tegmaydi.

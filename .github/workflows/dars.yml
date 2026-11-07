@@ -7,8 +7,17 @@ on:
     # 3 ta urinish bor (08:07, 08:37, 09:17 va 20:07, 20:37, 21:17). Dars baribir bir marta yuboriladi.
     - cron: '7,37 3,15 * * *'
     - cron: '17 4,16 * * *'
-  # Actions sahifasidagi "Run workflow" tugmasi (qo'lda tekshirish uchun).
+  # Actions sahifasidagi "Run workflow" tugmasi.
   workflow_dispatch:
+    inputs:
+      rejim:
+        description: "dars: vaqti kelgan bo'lsa darsni yuboradi. sinov: bitta darsni hozir sizga (ADMIN_ID). sinov-kanal: hozir kanalga."
+        type: choice
+        default: dars
+        options:
+          - dars
+          - sinov
+          - sinov-kanal
 
 permissions:
   contents: write
@@ -22,6 +31,9 @@ jobs:
   dars:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      # Jadval bo'yicha ishga tushganda rejim bo'sh bo'ladi, bu "dars" degani.
+      REJIM: ${{ inputs.rejim || 'dars' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +45,17 @@ jobs:
         run: npm test
 
       - name: Vaqti kelgan darsni yuborish
+        if: env.REJIM == 'dars'
         run: node bir-marta.js
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          KANAL_ID: ${{ secrets.KANAL_ID }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+
+      # Sinov vaqtinchalik bazada ishlaydi: holat va so'zlar tartibiga tegmaydi.
+      - name: Sinov darsi
+        if: env.REJIM != 'dars'
+        run: node sinov.js ${{ env.REJIM == 'sinov-kanal' && 'kanal' || '' }}
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           KANAL_ID: ${{ secrets.KANAL_ID }}
@@ -41,14 +63,14 @@ jobs:
 
       # Xato bo'lsa ham holat saqlanadi: keyingi urinish qolgan joyidan davom etadi.
       - name: Holatni saqlash
-        if: always()
+        if: always() && env.REJIM == 'dars'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [ ! -d holat ]; then
             echo "Holat papkasi yaratilmagan, saqlanadigan narsa yo'q."
             exit 0
           fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add holat/
           if git diff --cached --quiet; then
             echo "Holat o'zgarmadi."
