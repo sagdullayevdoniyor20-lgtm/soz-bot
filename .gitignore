@@ -1,0 +1,4 @@
+.env
+soz.db
+soz.db-*
+node_modules/

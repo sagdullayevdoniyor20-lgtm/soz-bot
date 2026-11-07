@@ -1,0 +1,55 @@
+name: Dars yuborish
+
+on:
+  schedule:
+    # Toshkent = UTC+5: 03:xx UTC = 08:xx, 15:xx UTC = 20:xx.
+    # GitHub jadvalni kechiktirishi yoki ba'zan tashlab ketishi mumkin, shuning uchun har bir darsga
+    # 3 ta urinish bor (08:07, 08:37, 09:17 va 20:07, 20:37, 21:17). Dars baribir bir marta yuboriladi.
+    - cron: '7,37 3,15 * * *'
+    - cron: '17 4,16 * * *'
+  # Actions sahifasidagi "Run workflow" tugmasi (qo'lda tekshirish uchun).
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Ikki ishga tushirish bir vaqtda ketmasin (bir dars ikki marta yuborilmasin).
+concurrency:
+  group: dars
+  cancel-in-progress: false
+
+jobs:
+  dars:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Testlar
+        run: npm test
+
+      - name: Vaqti kelgan darsni yuborish
+        run: node bir-marta.js
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          KANAL_ID: ${{ secrets.KANAL_ID }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+
+      # Xato bo'lsa ham holat saqlanadi: keyingi urinish qolgan joyidan davom etadi.
+      - name: Holatni saqlash
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add holat/
+          if git diff --cached --quiet; then
+            echo "Holat o'zgarmadi."
+            exit 0
+          fi
+          git commit -m "Dars holati: $(TZ=Asia/Tashkent date '+%Y-%m-%d %H:%M')"
+          git pull --rebase
+          git push

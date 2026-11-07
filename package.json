@@ -1,0 +1,19 @@
+{
+  "name": "soz-bot",
+  "version": "1.0.0",
+  "description": "Telegram kanaliga har kuni ingliz tili so'zlari va testlarini yuboradigan bot",
+  "private": true,
+  "type": "module",
+  "main": "bot.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node bot.js",
+    "test": "node --test",
+    "namuna": "node namuna.js",
+    "admin-id": "node admin-id.js",
+    "sinov": "node sinov.js",
+    "bir-marta": "node bir-marta.js"
+  }
+}
