@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ORIFIENGLISH.UZ — so'zlar va testlar</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ORIFIENGLISH.UZ: logotipdagi binafsha, och pushti va ko'k ranglar */
+    :root {
+      --fon: radial-gradient(circle at 50% 0%, #c93bd8 0%, #b11ac1 40%, #8e12a0 100%);
+      --karta: #fffafa;
+      --matn: #2b1630;
+      --xira: #7a6480;
+      --asosiy: #9c14ad;
+      --orqa-fon: linear-gradient(150deg, #2a2ee6 0%, #1418b8 100%);
+      --urgu: #f2e2e2;
+      --urgu-och: #f6e8f8;
+      --ok: #1fa64a;
+      --ok-och: #e6f6ea;
+      --yoq: #e0263a;
+      --yoq-och: #fde8ea;
+    }
+  </style>
+</head>
+<body>
+  <div id="ilova"><div class="yuklanmoqda">Yuklanmoqda…</div></div>
+  <script>
+    // Ma'lumot: ../sozlar/a2.json, b1.json, b2.json — kanal boti bilan bir xil fayllar.
+    // Har bir qator: [so'z, turkum, tarjima, birikma, birikma tarjimasi, gap ([so'z] bilan), gap tarjimasi]
+    const DARAJALAR = ['A2', 'B1', 'B2'];
+    const TURKUM = { n: "ot · noun", v: "fe'l · verb", adj: 'sifat · adjective', adv: 'ravish · adverb' };
+    const DARS_HAJMI = 10;
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const gapHtml = (gap) => esc(gap).replace(/\[([^\]]+)\]/g, '<b>$1</b>');
+    const gapMatn = (gap) => gap.replace(/\[([^\]]+)\]/g, '$1');
+
+    // 3 ta noto'g'ri variant: avval shu turkumdagi boshqa so'zlardan, yetmasa — istalganidan.
+    function chalgituvchi(soz, hammasi, maydon) {
+      const togri = soz[maydon];
+      const kerak = new Set([togri.toLowerCase()]);
+      const tanla = (royxat) => royxat.sort(() => Math.random() - 0.5).filter((s) => {
+        const q = s[maydon].toLowerCase();
+        if (kerak.has(q)) return false;
+        kerak.add(q);
+        return true;
+      });
+      const bir = tanla(hammasi.filter((s) => s.turkum === soz.turkum && s !== soz));
+      const qolgan = bir.length >= 3 ? [] : tanla(hammasi.filter((s) => s.turkum !== soz.turkum));
+      return [...bir, ...qolgan].slice(0, 3).map((s) => s[maydon]);
+    }
+
+    function savollarTuz(sozlar, daraja) {
+      return sozlar.map((s, i) => {
+        if (i % 3 === 0) return {
+          q: `«${s.soz}» so'zining tarjimasi qaysi?`,
+          o: [s.tarjima, ...chalgituvchi(s, daraja, 'tarjima')],
+          e: `${gapMatn(s.gap)} — ${s.gapTarjima}`,
+        };
+        if (i % 3 === 1) return {
+          q: `«${s.birikma}» nima degani?`,
+          o: [s.birikmaTarjima, ...chalgituvchi(s, daraja, 'birikmaTarjima')],
+          e: `${s.soz} — ${s.tarjima}`,
+        };
+        return {
+          q: `«${s.tarjima}» inglizcha qanday bo'ladi?`,
+          o: [s.soz, ...chalgituvchi(s, daraja, 'soz')],
+          e: `${s.birikma} — ${s.birikmaTarjima}`,
+        };
+      });
+    }
+
+    window.ILOVA = {
+      nomi: 'ORIFIENGLISH.UZ',
+      shior: "Ingliz tili: so'zlar va testlar",
+      logo: 'logo.png',
+      til: 'en-US',
+      sarlavhaRangi: '#b11ac1',
+      async yukla() {
+        const guruhlar = [];
+        for (const daraja of DARAJALAR) {
+          const javob = await fetch(`../sozlar/${daraja.toLowerCase()}.json`, { cache: 'no-cache' });
+          if (!javob.ok) throw new Error(`So'zlar topilmadi (${javob.status})`);
+          const sozlar = (await javob.json()).map(([soz, turkum, tarjima, birikma, birikmaTarjima, gap, gapTarjima]) =>
+            ({ soz, turkum, tarjima, birikma, birikmaTarjima, gap, gapTarjima }));
+          for (let i = 0; i < sozlar.length; i += DARS_HAJMI) {
+            const dars = sozlar.slice(i, i + DARS_HAJMI);
+            const n = i / DARS_HAJMI + 1;
+            guruhlar.push({
+              id: `${daraja}-${n}`,
+              toifa: daraja,
+              nomi: `${n}-dars`,
+              izoh: dars.slice(0, 3).map((s) => s.soz).join(', ') + '…',
+              kartalar: dars.map((s) => ({
+                old: s.soz,
+                oldIzoh: `${TURKUM[s.turkum] ?? s.turkum} · ${daraja}`,
+                ovoz: s.soz,
+                orqa: s.tarjima,
+                orqaIzoh: `<b>${esc(s.birikma)}</b> — ${esc(s.birikmaTarjima)}`,
+                misol: `${gapHtml(s.gap)}<small>${esc(s.gapTarjima)}</small>`,
+              })),
+              // Savollar har safar dars ochilganda yangidan tuziladi (variantlar boshqacha chiqadi).
+              get savollar() { return savollarTuz(dars, sozlar); },
+            });
+          }
+        }
+        return guruhlar;
+      },
+    };
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

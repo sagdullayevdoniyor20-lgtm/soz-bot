@@ -32,6 +32,7 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 | `joylar.js` | Joylar navbati, rasm tagidagi matn, yaroqli rasmlarni ajratish; tarmoqqa chiqmaydi |
 | `commons.js` | Wikipedia maqolasi orqali Wikimedia Commons'dan rasm topish va yuklab olish |
 | `.github/workflows/rasm.yml` | Rasm jadvali: 10:07, 10:37, 11:17 (Toshkent), oxirida navbatni commit qiladi |
+| `app/` | Telegram mini ilova (GitHub Pages): so'z kartochkalari va testlar. So'zlarni `../sozlar/*.json` dan oladi; natijalar Telegram CloudStorage'da. Tarmoqdagi bot kodiga tegmaydi |
 | `namuna.js` | Darsni tarmoqsiz ekranga chiqarish: `npm run namuna -- 5` |
 
 ## So'zlar bazasi
