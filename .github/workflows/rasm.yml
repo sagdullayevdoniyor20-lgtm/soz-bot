@@ -1,0 +1,66 @@
+name: Rasm yuborish (AQSh / UK)
+
+on:
+  schedule:
+    # Toshkent = UTC+5: 05:xx UTC = 10:xx. GitHub jadvalni kechiktirishi mumkin, shuning uchun
+    # 3 ta urinish bor (10:07, 10:37, 11:17). Rasm baribir kuniga bir marta yuboriladi.
+    - cron: '7,37 5 * * *'
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+    inputs:
+      rejim:
+        description: "jadval: vaqti kelgan bo'lsa (10:00–11:59) navbatdagi rasm. sinov: hozir sizga (ADMIN_ID). kanal: hozir kanalga (navbatga tegmaydi)."
+        type: choice
+        default: jadval
+        options:
+          - jadval
+          - sinov
+          - kanal
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rasm
+  cancel-in-progress: false
+
+jobs:
+  rasm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      REJIM: ${{ inputs.rejim || 'jadval' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Testlar
+        run: npm test
+
+      - name: Rasm yuborish
+        run: node rasm.js "$REJIM"
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          KANAL_ID: ${{ secrets.KANAL_ID }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+
+      - name: Navbatni saqlash
+        if: always() && env.REJIM == 'jadval'
+        run: |
+          if [ ! -f holat/rasm.json ]; then
+            echo "Navbat fayli yo'q, saqlanadigan narsa yo'q."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add holat/rasm.json
+          if git diff --cached --quiet; then
+            echo "Navbat o'zgarmadi."
+            exit 0
+          fi
+          git commit -m "Rasm navbati: $(TZ=Asia/Tashkent date '+%Y-%m-%d %H:%M')"
+          git pull --rebase
+          git push

@@ -12,14 +12,16 @@ export class TelegramXatosi extends Error {
 const kutish = (ms) => new Promise((tugadi) => setTimeout(tugadi, ms));
 
 export function telegramMijozi(token) {
+  // malumot oddiy obyekt (JSON) yoki FormData (fayl yuborish uchun) bo'lishi mumkin.
   async function sorov(metod, malumot) {
+    const forma = malumot instanceof FormData;
     for (let urinish = 0; ; urinish++) {
       try {
         const javob = await fetch(`${API}/bot${token}/${metod}`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(malumot),
-          signal: AbortSignal.timeout(20_000),
+          headers: forma ? undefined : { 'Content-Type': 'application/json' },
+          body: forma ? malumot : JSON.stringify(malumot),
+          signal: AbortSignal.timeout(forma ? 60_000 : 20_000),
         });
         const natija = await javob.json();
         if (!natija.ok) {
@@ -42,6 +44,15 @@ export function telegramMijozi(token) {
     chatniOl: (chatId) => sorov('getChat', { chat_id: chatId }),
     xabarYubor: (chatId, matn) =>
       sorov('sendMessage', { chat_id: chatId, text: matn, link_preview_options: { is_disabled: true } }),
+    // rasm: Uint8Array (JPEG), izoh: HTML matn.
+    rasmYubor(chatId, rasm, izoh) {
+      const forma = new FormData();
+      forma.append('chat_id', String(chatId));
+      forma.append('caption', izoh);
+      forma.append('parse_mode', 'HTML');
+      forma.append('photo', new Blob([rasm], { type: 'image/jpeg' }), 'rasm.jpg');
+      return sorov('sendPhoto', forma);
+    },
     // Kanalda testlar faqat anonim bo'ladi.
     testYubor: (chatId, savol) =>
       sorov('sendPoll', {

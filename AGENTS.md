@@ -2,6 +2,8 @@
 
 Telegram bot ingliz tilini o'rganuvchilar uchun kanalga har kuni 2 marta (08:00 va 20:00, Toshkent) dars yuboradi: 10 ta yangi so'z (birikmasi bilan) va shu so'zlar bo'yicha 10 ta test (quiz, 4 variant).
 
+Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida rasm yuboradi: inglizcha va o'zbekcha qisqa matn bilan.
+
 ## Texnik cheklovlar
 
 - Faqat Node.js (22.13 yoki yangiroq) va uning ichki modullari. **Kutubxona o'rnatilmaydi:** `package.json` da `dependencies` bo'lmaydi.
@@ -25,6 +27,11 @@ Telegram bot ingliz tilini o'rganuvchilar uchun kanalga har kuni 2 marta (08:00 
 | `xabarnoma.js` | So'zlar tugab qolayotgani haqida adminga xabar matni; tarmoqqa chiqmaydi |
 | `admin-id.js` | `npm run admin-id`: botga /start bosgan odamlarning Telegram ID sini chiqaradi |
 | `sinov.js` | `npm run sinov`: bitta darsni hozir ADMIN_ID ga (`-- kanal` bilan kanalga) yuboradi; vaqtinchalik bazada |
+| `rasm.js` | 10:00 dagi rasm: `node rasm.js` (jadval), `sinov` (ADMIN_ID ga), `kanal`, `tekshir` (Telegram'siz, 30 ta joyning rasmini tekshiradi). Navbat `holat/rasm.json` da |
+| `joylar.json` | AQSh/UK joylari navbat bilan: nomi, `en`/`uz` matn, `maqola` (inglizcha Wikipedia sarlavhasi), `kalit` (maqoladagi qaysi fayllar mos: regex) |
+| `joylar.js` | Joylar navbati, rasm tagidagi matn, yaroqli rasmlarni ajratish; tarmoqqa chiqmaydi |
+| `commons.js` | Wikipedia maqolasi orqali Wikimedia Commons'dan rasm topish va yuklab olish |
+| `.github/workflows/rasm.yml` | Rasm jadvali: 10:07, 10:37, 11:17 (Toshkent), oxirida navbatni commit qiladi |
 | `namuna.js` | Darsni tarmoqsiz ekranga chiqarish: `npm run namuna -- 5` |
 
 ## So'zlar bazasi
@@ -44,6 +51,13 @@ Telegram bot ingliz tilini o'rganuvchilar uchun kanalga har kuni 2 marta (08:00 
 - Xabarlar orasida 4 soniya pauza (Telegram: bitta chatga daqiqasiga ~20 xabar).
 - `ADMIN_ID` (ixtiyoriy) ga xabar: yangi so'zlar 60 tadan (3 kun) kamayganda bir marta, tugaganda bir marta, takrorlash davrida har kuni ertalabki darsdan keyin. Adminga yuborib bo'lmasa, faqat logga yoziladi, dars to'xtamaydi.
 - Bot o'chiq bo'lib qolsa, dars 2 soat ichida kechikib yuboriladi, keyin o'tkazib yuboriladi. Bitta dars ikki marta yuborilmaydi; uzilib qolsa, qolgan joyidan davom etadi.
+
+## Rasm (10:00)
+
+- Rasm maqolaning bosh rasmi (yarim ehtimol) yoki maqoladagi fayl nomida `kalit` bor boshqa foto. Faqat JPEG, eni ≥1400 px, gorizontal, 1950-yildan keyingi (eski kartinalar olinmaydi).
+- Rasm tagida muallif va litsenziya ko'rsatiladi (Commons litsenziyalari shuni talab qiladi). Matn `parse_mode: HTML`.
+- Wikimedia so'rovlarda `User-Agent` talab qiladi va tez-tez so'ralsa vaqtincha bloklaydi; `tekshir` so'rovlar orasida pauza qiladi.
+- Yangi joy qo'shilsa, AQSh va UK navbat bilan kelsin, keyin `npm test` va `node rasm.js tekshir`.
 
 ## Ishga tushirish usullari
 
