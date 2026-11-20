@@ -4,6 +4,8 @@ Telegram bot ingliz tilini o'rganuvchilar uchun kanalga har kuni 2 marta (08:00 
 
 Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida rasm yuboradi: inglizcha va o'zbekcha qisqa matn bilan.
 
+Yana `reja.json` (30 kunlik kontent reja: YouTube, Instagram, Telegram) bo'yicha kanalga 14:00 da «kun xatosi» va YouTube havolalarini, ADMIN_ID ga 09:00 da kunlik eslatma yuboradi.
+
 ## Texnik cheklovlar
 
 - Faqat Node.js (22.13 yoki yangiroq) va uning ichki modullari. **Kutubxona o'rnatilmaydi:** `package.json` da `dependencies` bo'lmaydi.
@@ -35,6 +37,11 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 | `app/` | Telegram mini ilova (GitHub Pages): so'z kartochkalari va testlar. So'zlarni `../sozlar/*.json` dan oladi; natijalar Telegram CloudStorage'da. Tarmoqdagi bot kodiga tegmaydi |
 | `namuna.js` | Darsni tarmoqsiz ekranga chiqarish: `npm run namuna -- 5` |
 | `brend/` | Logotip: `logo.svg` (asl vektor, "e" harfi shriftsiz chizilgan) va `logo.png` (1080×1080). `app/logo.png` shu logoning nusxasi |
+| `reja.json` | 30 kunlik kontent reja: har kun uchun `youtube` (vaqt, nomi, holat, ixtiyoriy `havola`), `instagram` (Reels/story), `xato` (kun xatosi: `notogri`, `togri`, `izoh`). Matnlar yangi alifboda (ş, ç, ğ, ö) |
+| `reja.js` | Reja bo'yicha kanal postlari, admin eslatmasi va REJA.md matnini tuzish; tarmoqqa chiqmaydi |
+| `reja-yubor.js` | `node reja-yubor.js` (jadval), `sinov [sana]` (hozir ADMIN_ID ga), `korish [sana]` (Telegram'siz ekranga). Yuborilganlar `holat/reja.json` da |
+| `reja-md.js` | `REJA.md` ni `reja.json` dan qayta yaratadi. `reja.json` o'zgarsa, shuni ishga tushiring (`npm test` tekshiradi) |
+| `.github/workflows/reja.yml` | Reja jadvali: 09:00, 10:05, 12:05, 14:00, 19:05 atrofida (Toshkent), oxirida holatni commit qiladi |
 | `video/chat-video.html` | Shorts/Reels uchun «Inglizlar buni eshitsa kuladi» rubrikasi: Telegram uslubidagi chat-video shabloni (brauzerda ochiladi, 9:16). Botga tegmaydi |
 
 ## So'zlar bazasi
@@ -61,6 +68,12 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 - Rasm tagida muallif va litsenziya ko'rsatiladi (Commons litsenziyalari shuni talab qiladi). Matn `parse_mode: HTML`.
 - Wikimedia so'rovlarda `User-Agent` talab qiladi va tez-tez so'ralsa vaqtincha bloklaydi; `tekshir` so'rovlar orasida pauza qiladi.
 - Yangi joy qo'shilsa, AQSh va UK navbat bilan kelsin, keyin `npm test` va `node rasm.js tekshir`.
+
+## Kontent reja
+
+- YouTube videosi chiqqach (yoki Studio'da rejalashtirilgach) uning havolasini `reja.json` dagi o'sha videoning `havola` maydoniga yozing: Telegram kanalga video vaqtidan 5 daqiqa keyin avtomatik e'lon ketadi. Havolasiz videolar e'lon qilinmaydi, faqat adminga eslatmada ko'rinadi.
+- YouTube Shorts va Instagram'ga avtomatik joylash yo'q: YouTube API orqali tasdiqlanmagan loyihadan yuklangan videolar yopiq (private) bo'lib qoladi. Shorts Studio'da oldindan rejalashtiriladi, Instagram qo'lda.
+- Reja tugashidan oldin keyingi 30 kunni `reja.json` ga qo'shing, keyin `node reja-md.js` va `npm test`.
 
 ## Ishga tushirish usullari
 

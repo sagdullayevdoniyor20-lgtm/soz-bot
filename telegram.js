@@ -42,8 +42,9 @@ export function telegramMijozi(token) {
   return {
     botniOl: () => sorov('getMe', {}),
     chatniOl: (chatId) => sorov('getChat', { chat_id: chatId }),
-    xabarYubor: (chatId, matn) =>
-      sorov('sendMessage', { chat_id: chatId, text: matn, link_preview_options: { is_disabled: true } }),
+    // korinish: true bo'lsa, havolaning oldindan ko'rinishi (preview) chiqadi.
+    xabarYubor: (chatId, matn, { korinish = false } = {}) =>
+      sorov('sendMessage', { chat_id: chatId, text: matn, link_preview_options: { is_disabled: !korinish } }),
     // rasm: Uint8Array (JPEG), izoh: HTML matn.
     rasmYubor(chatId, rasm, izoh) {
       const forma = new FormData();

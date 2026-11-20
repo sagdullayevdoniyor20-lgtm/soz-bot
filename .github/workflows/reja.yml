@@ -1,0 +1,66 @@
+name: Kontent reja
+
+on:
+  schedule:
+    # Toshkent = UTC+5. Reja vaqtlari: 09:00 (adminga eslatma), 10:05 / 12:05 / 19:05 (YouTube havolasi),
+    # 14:00 (kun xatosi). GitHub jadvalni kechiktirishi mumkin, shuning uchun har biriga bir nechta urinish bor.
+    # Har bir post baribir bir marta yuboriladi (holat/reja.json).
+    - cron: '7,37 4,5,7,9,14 * * *'
+    - cron: '17 5,6,8,10,15 * * *'
+  workflow_dispatch:
+    inputs:
+      rejim:
+        description: "jadval: vaqti kelganlarini yuboradi. sinov: bugungi barcha postlar va eslatmani hozir sizga (ADMIN_ID)."
+        type: choice
+        default: jadval
+        options:
+          - jadval
+          - sinov
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reja
+  cancel-in-progress: false
+
+jobs:
+  reja:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      REJIM: ${{ inputs.rejim || 'jadval' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Testlar
+        run: npm test
+
+      - name: Reja bo'yicha yuborish
+        run: node reja-yubor.js "$REJIM"
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          KANAL_ID: ${{ secrets.KANAL_ID }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+
+      - name: Holatni saqlash
+        if: always() && env.REJIM == 'jadval'
+        run: |
+          if [ ! -f holat/reja.json ]; then
+            echo "Holat fayli yo'q, saqlanadigan narsa yo'q."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add holat/reja.json
+          if git diff --cached --quiet; then
+            echo "Holat o'zgarmadi."
+            exit 0
+          fi
+          git commit -m "Reja holati: $(TZ=Asia/Tashkent date '+%Y-%m-%d %H:%M')"
+          git pull --rebase
+          git push
