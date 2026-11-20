@@ -34,6 +34,8 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 | `.github/workflows/rasm.yml` | Rasm jadvali: 10:07, 10:37, 11:17 (Toshkent), oxirida navbatni commit qiladi |
 | `app/` | Telegram mini ilova (GitHub Pages): so'z kartochkalari va testlar. So'zlarni `../sozlar/*.json` dan oladi; natijalar Telegram CloudStorage'da. Tarmoqdagi bot kodiga tegmaydi |
 | `namuna.js` | Darsni tarmoqsiz ekranga chiqarish: `npm run namuna -- 5` |
+| `brend/` | Logotip: `logo.svg` (asl vektor, "e" harfi shriftsiz chizilgan) va `logo.png` (1080×1080). `app/logo.png` shu logoning nusxasi |
+| `video/chat-video.html` | Shorts/Reels uchun «Inglizlar buni eshitsa kuladi» rubrikasi: Telegram uslubidagi chat-video shabloni (brauzerda ochiladi, 9:16). Botga tegmaydi |
 
 ## So'zlar bazasi
 
@@ -66,6 +68,15 @@ Bundan tashqari har kuni 10:00 da AQSh yoki Buyuk Britaniyadagi bir joy haqida r
 - Sozlamalar GitHub Secrets'da: `BOT_TOKEN`, `KANAL_ID`, `ADMIN_ID`.
 - `holat/darslar.db` repozitoriyda saqlanadi va uni faqat workflow o'zgartiradi. Qo'lda tahrirlanmaydi.
 - **Ikki usulni bir vaqtda ishlatmang:** Actions yoqiq bo'lsa, kompyuterda `npm start` ishlamasin, aks holda darslar ikki marta boradi.
+
+## Brend va ijtimoiy tarmoqlar
+
+- Nomi: «Ingliz tili 0 dan». Brend: orifienglish.uz.
+- Telegram kanal: https://t.me/ingliztiliorif
+- YouTube: https://www.youtube.com/@orifienglishuz
+- Instagram: https://www.instagram.com/orifienglishuz/
+- Ranglar: binafsha `#a21caf` (asosiy), sariq `#ffc83d` (urg'u), oq. Logoda nutq pufakchasi ichida "e" harfi.
+- Logoni o'zgartirsangiz, `brend/` va `app/logo.png` ni birga yangilang.
 
 ## Maxfiylik
 

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="-146 -146 1052 1052"><rect x="-146" y="-146" width="1052" height="1052" fill="#a21caf"/><path d="M178 535 L100 712 L318 642 Z" fill="#ffffff" stroke="#ffffff" stroke-width="28" stroke-linejoin="round"/>
+<circle cx="390" cy="365" r="300" fill="#ffffff"/>
+<clipPath id="eclip"><circle cx="390" cy="380" r="147"/></clipPath>
+<path d="M500 380 A110 110 0 1 0 480.1 443.1" fill="none" stroke="#a21caf" stroke-width="74"/>
+<rect x="240" y="354" width="300" height="52" fill="#a21caf" clip-path="url(#eclip)"/>
+<circle cx="620" cy="140" r="62" fill="#ffc83d" stroke="#a21caf" stroke-width="22"/>
+</svg>

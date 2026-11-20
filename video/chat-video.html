@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Çat-video şablon</title>
+<style>
+/* VOICE: friendly, quick, a tool for a creator
+   IDEA: a phone-sized messenger chat (iOS, dark, glass panels) that plays itself like a Short
+   PICTURE: the 9:16 stage is the picture; the editor sits beside it
+   COLOUR and TYPE: night chat with doodle wallpaper or own photo, violet out-bubbles; system sans
+   LAYOUT: editor left, stage right; stacked under 900px; record mode = stage only */
+:root{color-scheme:light dark;--bg:light-dark(#eef2f5,#101418);--panel:light-dark(#fff,#1a2027);--ink:light-dark(#17202a,#e8edf2);--mut:light-dark(#5d6b78,#93a1ae);--line:light-dark(#d5dde4,#2c3540);--acc:#2a9df4}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:clip}
+#app{display:grid;grid-template-columns:400px minmax(0,1fr);min-height:100vh}
+#editor{background:var(--panel);border-right:1px solid var(--line);padding:20px;overflow:auto;max-height:100vh}
+#editor h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+#editor h2{font-size:15px;margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+#editor .sub{color:var(--mut);font-size:14px;margin:0 0 16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:12px 0 4px}
+input[type=text],textarea,select{width:100%;font:16px/1.4 inherit;font-family:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+textarea{min-height:150px;resize:vertical}
+input:focus,textarea:focus,select:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+input[type=range]{width:100%}
+input[type=file]{display:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+button,.btn{font:600 15px inherit;font-family:inherit;min-height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-align:center}
+button.main{background:var(--acc);border-color:var(--acc);color:#fff}
+button.rec{background:#e5383b;border-color:#e5383b;color:#fff}
+.hint{font-size:13px;color:var(--mut);background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:8px}
+.hint code{font-size:13px}
+.chk{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--ink);font-size:15px}
+#viewport{position:relative;display:flex;align-items:center;justify-content:center;padding:20px;height:100vh;overflow:hidden}
+#scaler{position:relative}
+
+/* ---------- stage ---------- */
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;overflow:hidden;border-radius:36px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-family:-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+  --wall:#0f0f12;--doodle:rgba(255,255,255,.10);--fade:rgba(0,0,0,.85);--glass:rgba(38,38,42,.62);--gline:rgba(255,255,255,.14);--txt:#fff;--sub:#8e8e93;--typ:#9b8cff;
+  --bin:#262629;--bout:linear-gradient(160deg,#8a6cf0,#6a58d8);--tin:#fff;--tout:#fff;--tmi:rgba(255,255,255,.45);--tmo:rgba(255,255,255,.7);color:var(--txt)}
+#stage.light{--wall:#c9dfb4;--doodle:rgba(40,80,30,.16);--fade:rgba(255,255,255,.8);--glass:rgba(255,255,255,.7);--gline:rgba(0,0,0,.08);--txt:#000;--sub:#7d8790;--typ:#3390ec;
+  --bin:#fff;--bout:#e1fec6;--tin:#000;--tout:#000;--tmi:#a3adb6;--tmo:#5fae55}
+.wall{position:absolute;inset:-30px;background-color:var(--wall);background-size:540px 540px}
+.wall.photo{background-size:cover;background-position:center}
+.dim{position:absolute;inset:0;background:#000;opacity:0}
+.topfade{position:absolute;left:0;right:0;top:0;height:380px;z-index:2;background:linear-gradient(var(--fade),transparent);pointer-events:none}
+.botfade{position:absolute;left:0;right:0;bottom:0;height:260px;z-index:2;background:linear-gradient(transparent,var(--fade));opacity:.7;pointer-events:none}
+.sbar{position:absolute;left:0;right:0;top:0;height:130px;z-index:4;display:flex;align-items:center;justify-content:space-between;padding:22px 90px 0 100px;font-weight:700;font-size:50px;color:var(--txt)}
+.bat{display:flex;align-items:center;gap:20px}
+.bat i{display:block;width:84px;height:40px;border-radius:12px;border:3px solid var(--sub);padding:4px;position:relative}
+.bat i::after{content:"";display:block;height:100%;width:72%;border-radius:6px;background:#34c759}
+.sig{display:flex;gap:6px;align-items:flex-end}.sig b{width:9px;background:var(--txt);border-radius:3px}
+.head{position:absolute;left:0;right:0;top:150px;z-index:4;display:flex;align-items:center;gap:26px;padding:0 44px}
+.glass{background:var(--glass);border:2px solid var(--gline);backdrop-filter:blur(26px) saturate(1.4);-webkit-backdrop-filter:blur(26px) saturate(1.4);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.backp{height:132px;padding:0 30px 0 36px;border-radius:70px;display:flex;align-items:center;gap:14px;flex:none}
+.backp svg{width:40px;height:64px}
+.badge{min-width:66px;height:66px;border-radius:40px;background:var(--txt);color:var(--wall);font-size:42px;font-weight:700;display:grid;place-items:center;padding:0 16px}
+#stage:not(.light) .badge{background:#fff;color:#000}
+.namep{flex:1;height:132px;border-radius:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 40px}
+.namep b{font-size:52px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.namep span{font-size:38px;color:var(--sub);line-height:1.3}
+.namep span.typing{color:var(--typ)}
+.ava{width:136px;height:136px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-size:58px;font-weight:700;background:linear-gradient(135deg,#ff8a65,#f4511e);background-size:cover;background-position:center;border:4px solid var(--gline)}
+.msgs{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;padding:330px 40px 250px;overflow:hidden}
+.b{max-width:82%;padding:22px 34px 16px;border-radius:44px;font-size:52px;line-height:1.3;position:relative;animation:pop .32s cubic-bezier(.2,1.4,.4,1);box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.b.in{align-self:flex-start;background:var(--bin);color:var(--tin);border-bottom-left-radius:12px}
+.b.out{align-self:flex-end;background:var(--bout);color:var(--tout);border-bottom-right-radius:12px}
+.b small{display:block;text-align:right;font-size:30px;margin-top:4px;color:var(--tmi)}
+.b.out small{color:var(--tmo)}
+.b.wrong .t{text-decoration:underline wavy #ff4d4f 5px;text-underline-offset:12px}
+.b.wrong::after{content:"!";position:absolute;top:-24px;right:-20px;width:60px;height:60px;border-radius:50%;background:#ff3b30;color:#fff;font:800 40px/60px Arial;text-align:center;animation:pop .3s}
+.typ{align-self:flex-start;background:var(--bin);border-radius:44px;border-bottom-left-radius:12px;padding:32px 36px;display:flex;gap:12px}
+.typ i{width:20px;height:20px;border-radius:50%;background:var(--sub);animation:dot 1s infinite}
+.typ i:nth-child(2){animation-delay:.15s}.typ i:nth-child(3){animation-delay:.3s}
+.bar{position:absolute;left:0;right:0;bottom:56px;z-index:4;display:flex;align-items:center;gap:22px;padding:0 44px}
+.circ{width:132px;height:132px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--txt)}
+.circ svg{width:62px;height:62px}
+.pill{flex:1;height:132px;border-radius:70px;display:flex;align-items:center;padding:0 44px;gap:20px}
+.field{flex:1;font-size:50px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.field.has{color:var(--txt)}
+.pill svg{width:58px;height:58px;color:var(--sub);flex:none}
+.circ.send{background:#3390ec;border-color:transparent;color:#fff}
+#stage:not(.light) .circ.send{background:#8a6cf0}
+
+/* overlays */
+.ov{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.ov.on{opacity:1}
+.intro{background:radial-gradient(circle at 50% 35%,#7a5cf0,#1d1450 78%);color:#fff;padding:90px}
+.chip{font-size:38px;font-weight:700;background:rgba(255,255,255,.18);padding:14px 34px;border-radius:60px;margin-bottom:60px}
+.big{font-size:118px;line-height:1.08;font-weight:900;text-wrap:balance}
+.ep{margin-top:60px;font-size:48px;font-weight:800;opacity:.85}
+.intro.on .big,.outro.on .big{animation:zoom .7s cubic-bezier(.2,1.5,.4,1)}
+.fix{background:rgba(0,0,0,.55);padding:0 50px 200px}
+.card{width:100%;background:#fff;color:#111;border-radius:50px;padding:56px 54px;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,.45);transform:translateY(130%);transition:transform .5s cubic-bezier(.2,1.2,.4,1)}
+.fix.on .card{transform:none}
+.ln{font-size:64px;font-weight:800;line-height:1.2;padding:18px 0;opacity:0;transform:translateX(-40px);transition:.4s}
+.ln.on{opacity:1;transform:none}
+.ln.no{color:#e5383b}.ln.no s{text-decoration-thickness:6px}
+.ln.ok{color:#1f9d55}
+.why{font-size:44px;line-height:1.35;color:#33404c;border-top:3px solid #edf0f3;margin-top:24px;padding-top:30px;opacity:0;transition:.4s}
+.why.on{opacity:1}
+.outro{background:radial-gradient(circle at 50% 40%,#1f9d55,#0d4f2b 80%);color:#fff;padding:90px}
+.outro .big{font-size:104px}
+.outro .s2{font-size:66px;font-weight:800;margin-top:40px}
+.outro .ch{margin-top:90px;font-size:52px;font-weight:800;background:#fff;color:#0d4f2b;padding:22px 50px;border-radius:70px}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes zoom{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+@keyframes dot{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-12px);opacity:1}}
+@media(prefers-reduced-motion:reduce){.b,.intro.on .big,.outro.on .big{animation:none}}
+
+/* record mode */
+body.recm #editor{display:none}
+body.recm #app{grid-template-columns:1fr}
+body.recm #viewport{background:#000;padding:0;cursor:none}
+body.recm #stage{border-radius:0;box-shadow:none}
+#recHint{position:absolute;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);color:#fff;text-align:center;font-size:20px;padding:30px;cursor:pointer}
+#recHint b{display:block;font-size:28px;margin-bottom:10px}
+body.recm.wait #recHint{display:flex}
+@media(max-width:900px){#app{grid-template-columns:1fr}#editor{max-height:none;border-right:0;border-bottom:1px solid var(--line)}#viewport{height:80vh}body.recm #viewport{height:100vh}}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="editor">
+    <h1>Çat-video şablon</h1>
+    <p class="sub">"Inglizlar buni eşitsa kuladi" rubrikasi uçun. Dialogni yoz, ▶ bos, ekrandan yozib ol.</p>
+
+    <label for="dlg">Dialoglar</label>
+    <select id="dlg"></select>
+    <div class="row" style="margin-top:8px">
+      <button id="add">+ Yangi</button>
+      <button id="dup">Nusxa</button>
+      <button id="del">Öçiriş</button>
+    </div>
+
+    <div class="row">
+      <div><label for="name">Suhbatdoş ismi</label><input type="text" id="name"></div>
+      <div style="flex:.5"><label for="ep">Qism №</label><input type="text" id="ep"></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <label class="btn" for="avaFile">🖼 Suhbatdoş rasmi</label>
+      <button id="avaDel">Rasmsiz</button>
+    </div>
+    <input type="file" id="avaFile" accept="image/*">
+
+    <label for="lines">Yozişma (har qator: <code>A:</code> yoki <code>B:</code>)</label>
+    <textarea id="lines" spellcheck="false"></textarea>
+    <div class="hint"><b>A</b> — suhbatdoş (çapda). <b>B</b> — sen (öngda, binafşa).<br>Xato gap boşiga <code>!</code> qöy: <code>!B: I am agree</code> — u qizil çiziq bilan belgilanadi.</div>
+
+    <label for="wrong">❌ Notöğri</label><input type="text" id="wrong">
+    <label for="right">✅ Töğri</label><input type="text" id="right">
+    <label for="why">Qisqa tuşuntiriş</label><textarea id="why" style="min-height:70px"></textarea>
+
+    <h2>Körinişi (hamma videolar uçun)</h2>
+    <label for="theme">Mavzu</label>
+    <select id="theme"><option value="dark">🌙 Tungi</option><option value="light">☀️ Kunduzgi</option></select>
+
+    <label>Fon</label>
+    <div class="row">
+      <label class="btn" for="bgFile" style="margin:0">🖼 Fonga rasm qöyiş</label>
+      <button id="bgDel">Naqşga qaytariş</button>
+    </div>
+    <input type="file" id="bgFile" accept="image/*">
+    <div id="bgCtl">
+      <label for="dimR">Qoraytiriş: <span id="dimV"></span></label>
+      <input type="range" id="dimR" min="0" max="0.8" step="0.05">
+      <label for="blurR">Xiralik: <span id="blurV"></span></label>
+      <input type="range" id="blurR" min="0" max="30" step="1">
+      <div class="hint">Rasm yorqin bölsa, qoraytiriş va xiralikni oşir — xabarlar yaxşi öqiladi.</div>
+    </div>
+
+    <label for="title">Boşlaniş matni</label><input type="text" id="title">
+    <label for="channel">Kanal nomi</label><input type="text" id="channel">
+
+    <label for="speed">Tezlik: <span id="spv"></span></label>
+    <input type="range" id="speed" min="0.6" max="1.6" step="0.1">
+    <label class="chk"><input type="checkbox" id="sound"> Ovoz effektlari (pufakça, ✅/❌)</label>
+
+    <div class="row" style="margin-top:16px">
+      <button class="main" id="play">▶ Körib çiqiş</button>
+      <button class="rec" id="recBtn">🎬 Yozib oliş rejimi</button>
+    </div>
+    <div class="hint">
+      <b>Qanday yozib olinadi:</b><br>
+      1. "🎬 Yozib oliş rejimi"ni bos — ekran töliq bölib, faqat video qoladi.<br>
+      2. Ekran yozişni yoq: Windows'da <b>Win + Alt + R</b>, Mac'da <b>Cmd + Shift + 5</b>.<br>
+      3. Ekranni bos — video boşlanadi. Tugagaç yozişni töxtat, <b>Esc</b> bilan çiq.<br>
+      4. CapCut'da 9:16 qilib qirqib, musiqa qöş (YouTube Audio Library'dan).<br>
+      Dialoglar va rasmlar şu brauzerda saqlanib qoladi.
+    </div>
+    <button id="reset" style="margin-top:12px;width:100%">Namunalarni qayta tiklaş</button>
+  </aside>
+
+  <main id="viewport">
+    <div id="scaler">
+      <div id="stage">
+        <div class="wall" id="wall"></div>
+        <div class="dim" id="dim"></div>
+        <div class="msgs" id="msgs"></div>
+        <div class="topfade"></div>
+        <div class="botfade"></div>
+        <div class="sbar">
+          <span id="clock">10:02</span>
+          <div class="bat"><div class="sig"><b style="height:16px"></b><b style="height:24px"></b><b style="height:32px"></b><b style="height:40px"></b></div><i></i></div>
+        </div>
+        <div class="head">
+          <div class="backp glass">
+            <svg viewBox="0 0 20 32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3L4 16l12 13"/></svg>
+            <span class="badge">1</span>
+          </div>
+          <div class="namep glass"><b id="hname">Aziz</b><span id="status">online</span></div>
+          <div class="ava" id="ava">A</div>
+        </div>
+        <div class="bar">
+          <div class="circ glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 01-7.8-7.8l8.9-8.9a3.7 3.7 0 015.2 5.2l-8.9 8.9a1.8 1.8 0 01-2.6-2.6l8.2-8.2"/></svg></div>
+          <div class="pill glass"><div class="field" id="field">Xabar</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 009 9h-5a4 4 0 00-4 4v5"/></svg></div>
+          <div class="circ glass" id="send"></div>
+        </div>
+        <div class="ov intro" id="intro">
+          <div class="chip">🇬🇧 Ingliz tili • Xatolar</div>
+          <div class="big" id="ititle"></div>
+          <div class="ep" id="iep"></div>
+        </div>
+        <div class="ov fix" id="fix">
+          <div class="card">
+            <div class="ln no" id="fno"></div>
+            <div class="ln ok" id="fok"></div>
+            <div class="why" id="fwhy"></div>
+          </div>
+        </div>
+        <div class="ov outro" id="outro">
+          <div class="big">Siz ham şunday deysizmi? 🤔</div>
+          <div class="s2">Izohda yozing 👇</div>
+          <div class="ch" id="och"></div>
+        </div>
+      </div>
+    </div>
+    <div id="recHint"><div><b>Ekran yozişni yoqing</b>Keyin istalgan joyni bosing — 1 soniyadan keyin video boşlanadi.<br>Çiqiş: Esc</div></div>
+  </main>
+</div>
+
+<script>
+{
+const DEF = {
+  settings: { title: "Inglizlar buni eşitsa kuladi 😄", channel: "@orifienglishuz", speed: 1, sound: true, theme: "dark", bg: "", dim: 0.35, blur: 0 },
+  cur: 0,
+  dialogs: [
+    { name: "Aziz", ep: "1", ava: "",
+      lines: "A: Let's go to the cinema tonight! 🎬\n!B: Good idea! I am agree!\nA: You are... a gree? 🤨\nA: Kim u \"gree\"? 😄",
+      wrong: "I am agree", right: "I agree",
+      why: "\"Agree\" — fe'l. Unga \"am\" kerak emas: I agree, she agrees." },
+    { name: "Malika", ep: "2", ava: "",
+      lines: "A: Hi! How old are you? 🙂\n!B: I have 20 years.\nA: 20 yil bor sizda? 😳\nA: Qayerda saqlaysiz? 😄",
+      wrong: "I have 20 years", right: "I am 20 (years old)",
+      why: "Inglizlar yoşni \"have\" bilan emas, \"be\" (am / is / are) bilan aytadi." },
+    { name: "Sardor", ep: "3", ava: "",
+      lines: "!A: It's so dark here. Open the light, please 💡\nB: Mana, eşikni oçdim! 🚪\nA: Yöq, çiroqni! 😅",
+      wrong: "Open the light", right: "Turn on the light",
+      why: "Çiroq, televizor, telefon uçun \"turn on / turn off\" işlatiladi." }
+  ]
+};
+const KEY = "chatVideo.v1";
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { S = null; }
+if (!S || !Array.isArray(S.dialogs) || !S.dialogs.length) S = JSON.parse(JSON.stringify(DEF));
+S.settings = Object.assign({}, DEF.settings, S.settings);
+if (!S.settings.channel || S.settings.channel === "@kanalingiz") S.settings.channel = DEF.settings.channel;
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+const $ = id => document.getElementById(id);
+const cur = () => S.dialogs[S.cur] || S.dialogs[0];
+const F = ["name", "ep", "lines", "wrong", "right", "why"];
+
+/* doodle wallpaper (English-learning theme) */
+function doodle(color) {
+  const s = `<svg xmlns='http://www.w3.org/2000/svg' width='540' height='540' viewBox='0 0 540 540' fill='none' stroke='${color}' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' font-family='Arial' font-weight='700'>
+<path d='M40 60h90a14 14 0 0114 14v46a14 14 0 01-14 14H80l-24 20v-20H40a14 14 0 01-14-14V74a14 14 0 0114-14z'/><text x='58' y='112' font-size='34' fill='${color}' stroke='none'>Hi!</text>
+<path d='M250 40l12 26 28 3-21 19 6 28-25-14-25 14 6-28-21-19 28-3z'/>
+<path d='M380 50h60v80h-60a12 12 0 01-12-12V62a12 12 0 0112-12zM440 50h12v80h-12M384 72h40M384 88h32'/>
+<text x='40' y='250' font-size='60' fill='none'>ABC</text>
+<path d='M230 200l70 70M300 270l14 4-4-14M230 200l-10-10a8 8 0 0111-11l10 10'/>
+<circle cx='430' cy='240' r='42'/><path d='M388 240h84M430 198c-18 22-18 62 0 84M430 198c18 22 18 62 0 84'/>
+<path d='M90 340a34 34 0 1144 32v18h-24v-18a34 34 0 01-20-32zM110 410h24'/>
+<path d='M250 350c0-20 30-20 30 0 0-20 30-20 30 0 0 24-30 40-30 46 0-6-30-22-30-46z'/>
+<text x='380' y='390' font-size='54' fill='none'>?!</text>
+<path d='M40 470h70M60 500h70M410 470q20-20 40 0t40 0'/>
+<text x='200' y='500' font-size='40' fill='none'>a-z</text>
+</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+}
+/* built-in illustrated avatars (no real people) */
+const PRESET = {
+  aziz:   { car: true },
+  malika: { bg: "#f06292", skin: "#f5cfa0", hair: "#3b2416", shirt: "#7e57c2", long: true },
+  sardor: { bg: "#26a69a", skin: "#e0ac69", hair: "#1a1a1a", shirt: "#3949ab", cap: true }
+};
+function carSvg() {
+  const s = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='12 32 176 176'>
+<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#1b2a4a'/><stop offset='1' stop-color='#05070d'/></linearGradient>
+<linearGradient id='c' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#4fa3ff'/><stop offset='1' stop-color='#1747b8'/></linearGradient>
+<radialGradient id='l' cx='.5' cy='.5' r='.5'><stop offset='0' stop-color='#fff8d0'/><stop offset='1' stop-color='#fff8d0' stop-opacity='0'/></radialGradient></defs>
+<rect width='200' height='220' fill='url(#g)'/>
+<path d='M0 150h200v70H0z' fill='#0b0e16'/>
+<path d='M10 168h40M80 168h40M150 168h40' stroke='#3a4560' stroke-width='4' stroke-linecap='round'/>
+<path d='M14 128c2-10 10-14 22-16l28-4c12-12 30-22 54-22 22 0 34 8 46 20l14 4c8 2 12 8 12 16v10c0 4-3 6-6 6H18c-3 0-5-3-4-6z' fill='url(#c)'/>
+<path d='M70 108c10-10 26-16 46-16 18 0 28 6 36 14z' fill='#0d1830' opacity='.85'/>
+<path d='M112 92v16' stroke='#1747b8' stroke-width='4'/>
+<path d='M24 124h150' stroke='#9fd0ff' stroke-width='2' opacity='.6'/>
+<circle cx='186' cy='122' r='16' fill='url(#l)'/><path d='M178 118h10' stroke='#fff' stroke-width='4' stroke-linecap='round'/>
+<path d='M16 122h8' stroke='#ff4d4f' stroke-width='5' stroke-linecap='round'/>
+<circle cx='56' cy='140' r='18' fill='#111'/><circle cx='56' cy='140' r='9' fill='#b9c3d6'/><circle cx='56' cy='140' r='3' fill='#111'/>
+<circle cx='150' cy='140' r='18' fill='#111'/><circle cx='150' cy='140' r='9' fill='#b9c3d6'/><circle cx='150' cy='140' r='3' fill='#111'/>
+</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+}
+function face(p) {
+  if (p.car) return carSvg();
+  const s = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
+<rect width='200' height='200' fill='${p.bg}'/>
+<circle cx='160' cy='40' r='60' fill='rgba(255,255,255,.12)'/>
+${p.long ? `<path d='M48 95c0-50 104-50 104 0v90H48z' fill='${p.hair}'/>` : ""}
+<path d='M30 200c4-38 34-56 70-56s66 18 70 56z' fill='${p.shirt}'/>
+<path d='M86 128h28v22a14 14 0 01-28 0z' fill='${p.skin}'/>
+<ellipse cx='100' cy='98' rx='40' ry='45' fill='${p.skin}'/>
+<circle cx='60' cy='102' r='8' fill='${p.skin}'/><circle cx='140' cy='102' r='8' fill='${p.skin}'/>
+${p.cap ? `<path d='M58 82c0-34 84-34 84 0z' fill='#ffca28'/><path d='M100 74h56a6 6 0 010 12h-56z' fill='#ffb300'/>`
+  : p.long ? `<path d='M60 92c0-40 80-46 80 0-14-18-40-24-62-14-8 4-14 10-18 14z' fill='${p.hair}'/>`
+  : `<path d='M60 92c-4-38 30-50 52-44 20 4 32 18 28 44-6-16-20-22-34-20-14 2-30 8-46 20z' fill='${p.hair}'/>`}
+<ellipse cx='84' cy='100' rx='5' ry='6.5' fill='#2b1d14'/><ellipse cx='116' cy='100' rx='5' ry='6.5' fill='#2b1d14'/>
+<circle cx='86' cy='98' r='1.8' fill='#fff'/><circle cx='118' cy='98' r='1.8' fill='#fff'/>
+<path d='M76 88q8-5 16 0M108 88q8-5 16 0' stroke='${p.hair}' stroke-width='3.5' fill='none' stroke-linecap='round'/>
+<path d='M86 118q14 14 28 0' stroke='#8d3b2a' stroke-width='4' fill='#fff' stroke-linecap='round'/>
+<circle cx='74' cy='114' r='6' fill='#ff8a80' opacity='.45'/><circle cx='126' cy='114' r='6' fill='#ff8a80' opacity='.45'/>
+</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+}
+function applyLook() {
+  const st = S.settings, light = st.theme === "light";
+  $("stage").classList.toggle("light", light);
+  const w = $("wall");
+  if (st.bg) { w.classList.add("photo"); w.style.backgroundImage = `url(${st.bg})`; w.style.filter = `blur(${st.blur}px)`; $("dim").style.opacity = st.dim; }
+  else { w.classList.remove("photo"); w.style.backgroundImage = doodle(light ? "rgba(40,80,30,.18)" : "rgba(255,255,255,.10)"); w.style.filter = ""; $("dim").style.opacity = 0; }
+  $("bgCtl").style.display = st.bg ? "" : "none";
+  $("dimV").textContent = Math.round(st.dim * 100) + "%";
+  $("blurV").textContent = st.blur + "px";
+  const d = cur(), a = $("ava"), pre = PRESET[(d.name || "").trim().toLowerCase()];
+  if (d.ava && d.ava !== "none") { a.style.backgroundImage = `url(${d.ava})`; a.textContent = ""; }
+  else if (!d.ava && pre) { a.style.backgroundImage = face(pre); a.textContent = ""; }
+  else { a.style.backgroundImage = ""; a.textContent = (d.name || "S").trim().charAt(0).toUpperCase() || "S"; }
+}
+
+/* image loading: shrink so it fits in browser storage */
+function readImg(file, maxW, maxH, cb) {
+  if (!file) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, maxW / img.width, maxH / img.height);
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      cb(c.toDataURL("image/jpeg", 0.85));
+    };
+    img.src = fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+$("bgFile").addEventListener("change", e => { readImg(e.target.files[0], 1200, 2133, url => { S.settings.bg = url; save(); applyLook(); }); e.target.value = ""; });
+$("bgDel").addEventListener("click", () => { S.settings.bg = ""; save(); applyLook(); });
+$("avaFile").addEventListener("change", e => { readImg(e.target.files[0], 240, 240, url => { cur().ava = url; save(); applyLook(); }); e.target.value = ""; });
+$("avaDel").addEventListener("click", () => { cur().ava = cur().ava === "none" ? "" : "none"; save(); applyLook(); });
+$("dimR").addEventListener("input", () => { S.settings.dim = +$("dimR").value; save(); applyLook(); });
+$("blurR").addEventListener("input", () => { S.settings.blur = +$("blurR").value; save(); applyLook(); });
+$("theme").addEventListener("change", () => { S.settings.theme = $("theme").value; save(); applyLook(); });
+
+function fillSelect() {
+  $("dlg").replaceChildren(...S.dialogs.map((d, i) => {
+    const o = document.createElement("option");
+    o.value = i;
+    o.textContent = (d.ep ? "#" + d.ep + " · " : "") + (d.wrong || "Yangi dialog");
+    return o;
+  }));
+  $("dlg").value = S.cur;
+}
+function loadForm() {
+  const d = cur(), st = S.settings;
+  F.forEach(k => $(k).value = d[k] || "");
+  $("title").value = st.title;
+  $("channel").value = st.channel;
+  $("speed").value = st.speed;
+  $("spv").textContent = st.speed + "×";
+  $("sound").checked = !!st.sound;
+  $("theme").value = st.theme;
+  $("dimR").value = st.dim; $("blurR").value = st.blur;
+  fillSelect();
+  resetStage();
+}
+F.forEach(k => $(k).addEventListener("input", () => { cur()[k] = $(k).value; save(); if (k === "wrong" || k === "ep") fillSelect(); if (k === "name") resetStage(); }));
+$("title").addEventListener("input", () => { S.settings.title = $("title").value; save(); });
+$("channel").addEventListener("input", () => { S.settings.channel = $("channel").value; save(); });
+$("speed").addEventListener("input", () => { S.settings.speed = +$("speed").value; $("spv").textContent = S.settings.speed + "×"; save(); });
+$("sound").addEventListener("change", () => { S.settings.sound = $("sound").checked; save(); });
+$("dlg").addEventListener("change", () => { S.cur = +$("dlg").value; save(); stop(); loadForm(); });
+$("add").addEventListener("click", () => {
+  S.dialogs.push({ name: "Suhbatdoş", ep: String(S.dialogs.length + 1), ava: "", lines: "A: \n!B: ", wrong: "", right: "", why: "" });
+  S.cur = S.dialogs.length - 1; save(); stop(); loadForm(); $("lines").focus();
+});
+$("dup").addEventListener("click", () => { S.dialogs.push(JSON.parse(JSON.stringify(cur()))); S.cur = S.dialogs.length - 1; save(); loadForm(); });
+$("del").addEventListener("click", () => {
+  if (S.dialogs.length < 2) return;
+  S.dialogs.splice(S.cur, 1); S.cur = Math.max(0, S.cur - 1); save(); stop(); loadForm();
+});
+$("reset").addEventListener("click", () => {
+  const extra = S.dialogs.filter(d => !DEF.dialogs.some(x => x.wrong === d.wrong));
+  const st = S.settings;
+  S = JSON.parse(JSON.stringify(DEF));
+  S.settings = Object.assign(S.settings, { bg: st.bg, dim: st.dim, blur: st.blur, theme: st.theme, channel: st.channel });
+  S.dialogs.push(...extra);
+  save(); stop(); loadForm();
+});
+
+/* scaling */
+function fit() {
+  const vp = $("viewport"), rec = document.body.classList.contains("recm");
+  const pad = rec ? 0 : 40;
+  const sc = Math.min((vp.clientWidth - pad) / 1080, (vp.clientHeight - pad) / 1920);
+  $("stage").style.transform = `scale(${sc})`;
+  $("scaler").style.width = 1080 * sc + "px";
+  $("scaler").style.height = 1920 * sc + "px";
+}
+const ro = new ResizeObserver(fit); ro.observe($("viewport"));
+
+/* sound */
+let ac = null;
+function tone(f1, f2, dur, type, vol, delay) {
+  if (!S.settings.sound || !ac) return;
+  const t = ac.currentTime + (delay || 0), o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + dur + 0.02);
+}
+const sfx = {
+  in: () => tone(900, 600, 0.09, "sine", 0.25),
+  out: () => tone(500, 1100, 0.12, "triangle", 0.2),
+  no: () => { tone(220, 180, 0.15, "square", 0.08); tone(200, 160, 0.2, "square", 0.08, 0.17); },
+  ok: () => { tone(660, 660, 0.12, "sine", 0.25); tone(990, 990, 0.25, "sine", 0.25, 0.12); },
+  whoosh: () => tone(300, 1200, 0.3, "sine", 0.12)
+};
+function initAudio() {
+  try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); } catch (e) { ac = null; }
+}
+
+/* stage */
+const MIC = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>`;
+const SEND = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>`;
+let base = new Date();
+const hm = d => String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+function resetStage() {
+  const d = cur();
+  $("msgs").innerHTML = "";
+  ["intro", "fix", "outro"].forEach(id => $(id).classList.remove("on"));
+  ["fno", "fok", "fwhy"].forEach(id => $(id).classList.remove("on"));
+  $("hname").textContent = d.name || "Suhbatdoş";
+  base = new Date(); $("clock").textContent = hm(base);
+  setStatus(false); setField("");
+  applyLook();
+}
+function setStatus(typing) {
+  $("status").textContent = typing ? "yozmoqda..." : "online";
+  $("status").className = typing ? "typing" : "";
+}
+function setField(t) {
+  $("field").textContent = t || "Xabar";
+  $("field").classList.toggle("has", !!t);
+  const s = $("send");
+  s.innerHTML = t ? SEND : MIC;
+  s.classList.toggle("send", !!t);
+}
+function parse(txt) {
+  return txt.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+    const wrong = l.startsWith("!");
+    if (wrong) l = l.slice(1).trim();
+    const m = l.match(/^([ABab])\s*:\s*(.*)$/);
+    return m ? { who: m[1].toUpperCase(), text: m[2], wrong } : { who: "A", text: l, wrong };
+  }).filter(x => x.text);
+}
+function addMsg(ln) {
+  const b = document.createElement("div");
+  b.className = "b " + (ln.who === "A" ? "in" : "out");
+  const t = document.createElement("span"); t.className = "t"; t.textContent = ln.text;
+  const sm = document.createElement("small");
+  sm.textContent = hm(base) + (ln.who === "B" ? " ✓✓" : "");
+  b.append(t, sm);
+  $("msgs").append(b);
+  return b;
+}
+
+let run = 0;
+const sp = () => S.settings.speed || 1;
+function wait(ms, id) { return new Promise((res, rej) => setTimeout(() => id === run ? res() : rej("stop"), ms / sp())); }
+function stop() { run++; resetStage(); }
+
+async function play() {
+  const id = ++run, d = cur(), lines = parse(d.lines);
+  resetStage();
+  try {
+    $("ititle").textContent = S.settings.title;
+    $("iep").textContent = d.ep ? "#" + d.ep : "";
+    $("intro").classList.add("on"); sfx.whoosh();
+    await wait(2600, id);
+    $("intro").classList.remove("on");
+    await wait(600, id);
+    for (const ln of lines) {
+      let b;
+      if (ln.who === "A") {
+        setStatus(true);
+        const ty = document.createElement("div"); ty.className = "typ"; ty.innerHTML = "<i></i><i></i><i></i>";
+        $("msgs").append(ty);
+        await wait(Math.min(2200, 700 + ln.text.length * 28), id);
+        ty.remove(); setStatus(false);
+        b = addMsg(ln); sfx.in();
+      } else {
+        const ch = Array.from(ln.text);
+        for (let i = 1; i <= ch.length; i++) { setField(ch.slice(0, i).join("")); await wait(45, id); }
+        await wait(250, id);
+        setField(""); b = addMsg(ln); sfx.out();
+      }
+      if (ln.wrong) { await wait(600, id); b.classList.add("wrong"); sfx.no(); }
+      await wait(1100, id);
+    }
+    await wait(700, id);
+    $("fno").innerHTML = "❌ <s></s>"; $("fno").querySelector("s").textContent = d.wrong;
+    $("fok").textContent = "✅ " + d.right;
+    $("fwhy").textContent = d.why;
+    $("fix").classList.add("on"); sfx.whoosh();
+    await wait(700, id); $("fno").classList.add("on"); sfx.no();
+    await wait(1200, id); $("fok").classList.add("on"); sfx.ok();
+    await wait(900, id); $("fwhy").classList.add("on");
+    await wait(Math.max(3500, d.why.length * 55), id);
+    $("fix").classList.remove("on");
+    $("och").textContent = S.settings.channel;
+    $("outro").classList.add("on"); sfx.whoosh();
+    await wait(3000, id);
+  } catch (e) { /* stopped */ }
+}
+
+$("play").addEventListener("click", () => { initAudio(); play(); });
+$("recBtn").addEventListener("click", () => {
+  initAudio(); stop();
+  document.body.classList.add("recm", "wait");
+  try { const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+  setTimeout(fit, 50);
+});
+$("recHint").addEventListener("click", () => {
+  initAudio();
+  document.body.classList.remove("wait");
+  const id = ++run;
+  setTimeout(() => { if (id === run) play(); }, 1000);
+});
+function exitRec() {
+  stop();
+  document.body.classList.remove("recm", "wait");
+  try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {}
+  setTimeout(fit, 50);
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("recm")) exitRec(); });
+document.addEventListener("fullscreenchange", fit);
+
+loadForm(); fit();
+}
+</script>
+</body>
+</html>
